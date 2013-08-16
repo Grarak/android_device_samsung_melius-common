@@ -89,9 +89,7 @@ struct LocEng {
     const gps_acquire_wakelock acquireWakelock;
     const gps_release_wakelock releaseWakeLock;
     const loc_msg_sender       sendMsge;
-#ifdef FEATURE_ULP
     const loc_msg_sender       sendUlpMsg;
-#endif
     const loc_ext_parser       extPosInfo;
     const loc_ext_parser       extSvInfo;
 
@@ -100,9 +98,7 @@ struct LocEng {
            gps_acquire_wakelock acqwl,
            gps_release_wakelock relwl,
            loc_msg_sender msgSender,
-#ifdef FEATURE_ULP
            loc_msg_sender msgUlpSender,
-#endif
            loc_ext_parser posParser,
            loc_ext_parser svParser);
 };
@@ -126,7 +122,7 @@ public:
     static int decodeAddress(char *addr_string, int string_size,
                              const char *data, int data_size);
 
-    void reportPosition(GpsLocation &location,
+    void reportPosition(UlpLocation &location,
                         GpsLocationExtended &locationExtended,
                         void* locationExt,
                         enum loc_sess_status status,
@@ -234,21 +230,6 @@ public:
 
     inline bool isInSession() { return navigating; }
     inline virtual void setInSession(bool inSession) { navigating = inSession; }
-
-private:
-    // Pad out virtual method table so that the setPrivacy entry corresponds to
-    // the same as LocApiV02Adapter.
-    inline virtual void unknownVirtualMethod26() {}
-    inline virtual void unknownVirtualMethod27() {}
-    inline virtual void unknownVirtualMethod28() {}
-    inline virtual void unknownVirtualMethod29() {}
-    inline virtual void unknownVirtualMethod30() {}
-    inline virtual void unknownVirtualMethod31() {}
-
-public:
-    inline virtual enum loc_api_adapter_err
-        setPrivacy(int8_t privacy_setting)
-    {LOC_LOGW("%s: default implementation invoked", __func__); return LOC_API_ADAPTER_ERR_SUCCESS;}
 };
 
 extern "C" LocApiAdapter* getLocApiAdapter(LocEng &locEng);

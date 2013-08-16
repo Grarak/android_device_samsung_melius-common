@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -31,34 +31,38 @@
 #define LOG_TAG "LocSvc_afw"
 
 #include <hardware/gps.h>
-#include <dlfcn.h>
+#include <loc_ulp.h>
 #include <loc_eng.h>
+#include <loc_target.h>
 #include <loc_log.h>
 #include <msg_q.h>
 #include <dlfcn.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <android_runtime/AndroidRuntime.h>
 
 #include <cutils/properties.h>
 
-#ifdef FEATURE_ULP
 //Globals defns
 static const ulpInterface * loc_eng_ulp_inf = NULL;
 static const ulpInterface * loc_eng_get_ulp_inf(void);
-#endif
 static gps_location_callback gps_loc_cb = NULL;
 static gps_sv_status_callback gps_sv_cb = NULL;
 
-static void loc_cb(GpsLocation* location, void* locExt);
-static void sv_cb(GpsSvStatus* sv_status, void* svExt);
-
-static const GpsGeofencingInterface* get_geofence_interface(void);
+static void local_loc_cb(UlpLocation* location, void* locExt);
+static void local_status_cb(GpsStatus* status);
+static void local_sv_cb(GpsSvStatus* sv_status, void* svExt);
+static void local_nmea_cb(GpsUtcTime timestamp, const char* nmea, int length);
+static void local_set_capabilities_cb(uint32_t capabilities);
+static void local_acquire_wakelock_cb(void);
+static void local_release_wakelock_cb(void);
+static void local_request_utc_time_cb(void);
 
 // Function declarations for sLocEngInterface
 static int  loc_init(GpsCallbacks* callbacks);
+static int  loc_hal_init(void);
 static int  loc_start();
 static int  loc_stop();
 static void loc_cleanup();
@@ -68,16 +72,19 @@ static void loc_delete_aiding_data(GpsAidingData f);
 static int  loc_set_position_mode(GpsPositionMode mode, GpsPositionRecurrence recurrence,
                                   uint32_t min_interval, uint32_t preferred_accuracy,
                                   uint32_t preferred_time);
-static const void* loc_get_extension(const char* name);
 
-#ifdef FEATURE_ULP
 //ULP/Hybrid provider Function definitions
-static int loc_update_criteria(UlpLocationCriteria criteria);
 static int loc_ulp_network_init(UlpNetworkLocationCallbacks *callbacks);
 static int loc_ulp_send_network_position(UlpNetworkPositionReport *position_report);
 static int loc_ulp_phone_context_init(UlpPhoneContextCallbacks *callback);
 static int loc_ulp_phone_context_settings_update(UlpPhoneContextSettings *settings);
-#endif
+static int loc_ulp_engine_update_criteria(UlpLocationCriteria criteria);
+static const void* loc_get_extension(const char* name);
+static ulp_location_callback ulp_loc_cb = NULL;
+static int loc_ulp_engine_init(UlpEngineCallbacks* callbacks);
+static int  loc_ulp_engine_start();
+static int  loc_ulp_engine_stop();
+
 
 // Defines the GpsInterface in gps.h
 static const GpsInterface sLocEngInterface =
@@ -92,9 +99,6 @@ static const GpsInterface sLocEngInterface =
    loc_delete_aiding_data,
    loc_set_position_mode,
    loc_get_extension
-#ifdef FEATURE_ULP
-   ,loc_update_criteria
-#endif
 };
 
 // Function declarations for sLocEngAGpsInterface
@@ -159,7 +163,15 @@ static const AGpsRilInterface sLocEngAGpsRilInterface =
    loc_agps_ril_update_network_availability
 };
 
-#ifdef FEATURE_ULP
+static const UlpEngineInterface sLocEngUlpEngInterface =
+{
+   sizeof(UlpEngineInterface),
+   loc_ulp_engine_init,
+   loc_ulp_engine_update_criteria,
+   loc_ulp_engine_start,
+   loc_ulp_engine_stop
+};
+
 static bool loc_inject_raw_command(char* command, int length);
 
 static const InjectRawCmdInterface sLocEngInjectRawCmdInterface =
@@ -181,68 +193,11 @@ static const UlpPhoneContextInterface sLocEngUlpPhoneContextInterface =
     loc_ulp_phone_context_init,
     loc_ulp_phone_context_settings_update
 };
-#endif
+
 static loc_eng_data_s_type loc_afw_data;
+static UlpCallbacks ulp_cb_data;
+static LocCallbacks afw_cb_data;
 static int gss_fd = 0;
-
-#define TARGET_NAME_OTHER              0
-#define TARGET_NAME_APQ8064_STANDALONE 1
-#define TARGET_NAME_APQ8064_FUSION3    2
-
-static int read_a_line(const char * file_path, char * line, int line_size)
-{
-    FILE *fp;
-    int result = 0;
-
-    * line = '\0';
-    fp = fopen(file_path, "r" );
-    if( fp == NULL ) {
-        LOC_LOGE("open failed: %s: %s\n", file_path, strerror(errno));
-        result = -1;
-    } else {
-        int len;
-        fgets(line, line_size, fp);
-        len = strlen(line);
-        len = len < line_size - 1? len : line_size - 1;
-        line[len] = '\0';
-        LOC_LOGD("cat %s: %s", file_path, line);
-        fclose(fp);
-    }
-    return result;
-}
-
-#define LINE_LEN 100
-#define STR_LIQUID    "Liquid"
-#define STR_SURF      "Surf"
-#define STRLEN_LIQUID (sizeof(STR_LIQUID) - 1)
-#define STRLEN_SURF   (sizeof(STR_SURF) - 1)
-#define IS_STR_END(c) ((c) == '\0' || (c) == '\n' || (c) == '\r')
-
-static int get_target_name(void)
-{
-    int target_name = TARGET_NAME_OTHER;
-
-    char hw_platform[]      = "/sys/devices/system/soc/soc0/hw_platform"; // "Liquid" or "Surf"
-    char id[]               = "/sys/devices/system/soc/soc0/id"; //109
-    char mdm[]              = "/dev/mdm"; // No such file or directory
-
-    char line[LINE_LEN];
-
-    read_a_line( hw_platform, line, LINE_LEN);
-    if(( !memcmp(line, STR_LIQUID, STRLEN_LIQUID) && IS_STR_END(line[STRLEN_LIQUID]) ) ||
-       ( !memcmp(line, STR_SURF,   STRLEN_SURF)   && IS_STR_END(line[STRLEN_SURF])   )
-      ) {
-        if (!read_a_line( mdm, line, LINE_LEN)) {
-            target_name = TARGET_NAME_APQ8064_FUSION3;
-        } else {
-            read_a_line( id, line, LINE_LEN);
-            if(!strncmp(line, "109", strlen("109")) || !strncmp(line, "153", strlen("153"))) {
-                target_name = TARGET_NAME_APQ8064_STANDALONE;
-            }
-        }
-    }
-    return target_name;
-}
 
 /*===========================================================================
 FUNCTION    gps_get_hardware_interface
@@ -278,6 +233,18 @@ const GpsInterface* gps_get_hardware_interface ()
         ret_val = &sLocEngInterface;
     }
 
+    if (0 != loc_hal_init()) {
+        LOC_LOGE("HAL could not be initialized");
+        ret_val = NULL;
+    } else {
+        ret_val = &sLocEngInterface;
+    }
+
+    loc_eng_read_config();
+
+    //We load up libulp module at this point itself
+    loc_eng_ulp_inf = loc_eng_get_ulp_inf();
+
     EXIT_LOG(%p, ret_val);
     return ret_val;
 }
@@ -285,23 +252,36 @@ const GpsInterface* gps_get_hardware_interface ()
 // for gps.c
 extern "C" const GpsInterface* get_gps_interface()
 {
-    loc_eng_read_config();
-#ifdef FEATURE_ULP
-    //We load up libulp module at this point itself if ULP configured to be On
-    if(gps_conf.CAPABILITIES & ULP_CAPABILITY) {
-       loc_eng_ulp_inf = loc_eng_get_ulp_inf();
-    }
-#endif
-    if (get_target_name() == TARGET_NAME_APQ8064_STANDALONE)
-    {
-        gps_conf.CAPABILITIES &= ~(GPS_CAPABILITY_MSA | GPS_CAPABILITY_MSB);
-        gss_fd = open("/dev/gss", O_RDONLY);
-        if (gss_fd < 0) {
-            LOC_LOGE("GSS open failed: %s\n", strerror(errno));
-        }
-        LOC_LOGD("GSS open success! CAPABILITIES %0x\n", gps_conf.CAPABILITIES);
-    }
+    targetEnumType target = TARGET_OTHER;
+    if (NULL == loc_afw_data.context) {
+        loc_eng_read_config();
 
+        //We load up libulp module at this point itself
+        loc_eng_ulp_inf = loc_eng_get_ulp_inf();
+
+        target = get_target();
+        LOC_LOGD("Target name check returned %s", loc_get_target_name(target));
+        //APQ8064 and APQ8030
+        if((target == TARGET_APQ8064_STANDALONE) || (target == TARGET_APQ8030_STANDALONE)) {
+            gps_conf.CAPABILITIES &= ~(GPS_CAPABILITY_MSA | GPS_CAPABILITY_MSB);
+            gss_fd = open("/dev/gss", O_RDONLY);
+            if (gss_fd < 0) {
+                LOC_LOGE("GSS open failed: %s\n", strerror(errno));
+            }
+            else {
+                LOC_LOGD("GSS open success! CAPABILITIES %0lx\n", gps_conf.CAPABILITIES);
+            }
+        }
+        //MPQ8064
+        else if(target == TARGET_MPQ8064) {
+            LOC_LOGE("No GPS HW on this target (MPQ8064). Not returning interface");
+            return NULL;
+        }
+        if (0 != loc_hal_init()) {
+            LOC_LOGE("HAL could not be initialized");
+            return NULL;
+        }
+    }
     return &sLocEngInterface;
 }
 
@@ -310,16 +290,14 @@ static void loc_free_msg(void* msg)
     delete (loc_eng_msg*)msg;
 }
 
-#ifdef FEATURE_ULP
 void loc_ulp_msg_sender(void* loc_eng_data_p, void* msg)
 {
     LocEngContext* loc_eng_context = (LocEngContext*)((loc_eng_data_s_type*)loc_eng_data_p)->context;
     msg_q_snd((void*)loc_eng_context->ulp_q, msg, loc_free_msg);
 }
-#endif
 
 /*===========================================================================
-FUNCTION    loc_init
+FUNCTION    loc_hal_init
 
 DESCRIPTION
    Initialize the location engine, this include setting up global datas
@@ -335,15 +313,10 @@ SIDE EFFECTS
    N/Ax
 
 ===========================================================================*/
-static int loc_init(GpsCallbacks* callbacks)
+static int loc_hal_init(void)
 {
     int retVal = -1;
     ENTRY_LOG();
-    if(callbacks == NULL) {
-        LOC_LOGE("loc_init failed. cb = NULL\n");
-        EXIT_LOG(%d, retVal);
-        return retVal;
-    }
     LOC_API_ADAPTER_EVENT_MASK_T event =
         LOC_API_ADAPTER_BIT_PARSED_POSITION_REPORT |
         LOC_API_ADAPTER_BIT_SATELLITE_REPORT |
@@ -353,21 +326,19 @@ static int loc_init(GpsCallbacks* callbacks)
         LOC_API_ADAPTER_BIT_STATUS_REPORT |
         LOC_API_ADAPTER_BIT_NMEA_1HZ_REPORT |
         LOC_API_ADAPTER_BIT_NI_NOTIFY_VERIFY_REQUEST;
-    LocCallbacks clientCallbacks = {loc_cb, /* location_cb */
-                                    callbacks->status_cb, /* status_cb */
-                                    sv_cb, /* sv_status_cb */
-                                    callbacks->nmea_cb, /* nmea_cb */
-                                    callbacks->set_capabilities_cb, /* set_capabilities_cb */
-                                    callbacks->acquire_wakelock_cb, /* acquire_wakelock_cb */
-                                    callbacks->release_wakelock_cb, /* release_wakelock_cb */
-                                    callbacks->create_thread_cb, /* create_thread_cb */
+    LocCallbacks clientCallbacks = {local_loc_cb, /* location_cb */
+                                    local_status_cb, /* status_cb */
+                                    local_sv_cb, /* sv_status_cb */
+                                    local_nmea_cb, /* nmea_cb */
+                                    local_set_capabilities_cb, /* set_capabilities_cb */
+                                    local_acquire_wakelock_cb, /* acquire_wakelock_cb */
+                                    local_release_wakelock_cb, /* release_wakelock_cb */
+                                    (pthread_t (*)(const char*, void (*)(void*), void*))
+                                    android::AndroidRuntime::createJavaThread, /* create_thread_cb */
                                     NULL, /* location_ext_parser */
                                     NULL, /* sv_ext_parser */
-                                    callbacks->request_utc_time_cb /* request_utc_time_cb */};
-    gps_loc_cb = callbacks->location_cb;
-    gps_sv_cb = callbacks->sv_status_cb;
+                                    local_request_utc_time_cb /* request_utc_time_cb */};
 
-#ifdef FEATURE_ULP
     if (loc_eng_ulp_inf == NULL)
         retVal = loc_eng_init(loc_afw_data, &clientCallbacks, event,
                               NULL);
@@ -376,11 +347,9 @@ static int loc_init(GpsCallbacks* callbacks)
                               loc_ulp_msg_sender);
 
     int ret_val1 = loc_eng_ulp_init(loc_afw_data, loc_eng_ulp_inf);
+    //Initialize the cached min_interval
+    loc_afw_data.min_interval_cached = ULP_MIN_INTERVAL_INVALID;
     LOC_LOGD("loc_eng_ulp_init returned %d\n",ret_val1);
-#else
-    retVal = loc_eng_init(loc_afw_data, &clientCallbacks, event,
-                          NULL);
-#endif
 
     EXIT_LOG(%d, retVal);
     return retVal;
@@ -410,7 +379,7 @@ static void loc_cleanup()
     gps_sv_cb = NULL;
 
     /*
-     * if (get_target_name() == TARGET_NAME_APQ8064_STANDALONE)
+     * if (get_target() == TARGET_NAME_APQ8064_STANDALONE)
      * {
      *     close(gss_fd);
      *     LOC_LOGD("GSS shutdown.\n");
@@ -464,8 +433,27 @@ SIDE EFFECTS
 static int loc_stop()
 {
     ENTRY_LOG();
-    int ret_val = loc_eng_stop(loc_afw_data);
-
+    int ret_val = -1;
+    if (loc_afw_data.ulp_initialized) {
+        //ULP initialized so we need to simulate REMOVE_CRITERIA for
+        //last client to libulp and we dont need to send loc_eng_stop
+        UlpLocationCriteria native_criteria;
+        native_criteria.valid_mask = (ULP_CRITERIA_HAS_ACTION | ULP_CRITERIA_HAS_PROVIDER_SOURCE | ULP_CRITERIA_HAS_RECURRENCE_TYPE |
+                                  ULP_CRITERIA_HAS_MIN_INTERVAL);
+        native_criteria.provider_source = ULP_PROVIDER_SOURCE_GNSS;
+        native_criteria.min_distance = 0; //This is not used by ULP engine so leaving it 0 for now
+        native_criteria.recurrence_type = loc_afw_data.recurrence_type_cached;
+        loc_afw_data.recurrence_type_cached = ULP_LOC_RECURRENCE_PERIODIC;
+        //For a GPS client horizontal_accuracy & power_consumption are irrelevant
+        native_criteria.preferred_horizontal_accuracy = ULP_HORZ_ACCURACY_DONT_CARE;
+        native_criteria.preferred_power_consumption = ULP_POWER_REQ_DONT_CARE;
+        native_criteria.action = ULP_REMOVE_CRITERIA;
+        native_criteria.min_interval = loc_afw_data.min_interval_cached;
+        loc_afw_data.min_interval_cached = ULP_MIN_INTERVAL_INVALID;
+        ret_val = loc_eng_update_criteria(loc_afw_data, native_criteria);
+    } else {
+        ret_val = loc_eng_stop(loc_afw_data);
+    }
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
@@ -493,22 +481,46 @@ static int  loc_set_position_mode(GpsPositionMode mode,
                                   uint32_t preferred_time)
 {
     ENTRY_LOG();
-    LocPositionMode locMode;
-    switch (mode) {
-    case GPS_POSITION_MODE_MS_BASED:
-        locMode = LOC_POSITION_MODE_MS_BASED;
-        break;
-    case GPS_POSITION_MODE_MS_ASSISTED:
-        locMode = LOC_POSITION_MODE_MS_ASSISTED;
-        break;
-    default:
-        locMode = LOC_POSITION_MODE_STANDALONE;
-        break;
-    }
+    int ret_val = -1;
+    if (!loc_afw_data.ulp_initialized) {
+        LocPositionMode locMode;
+        switch (mode) {
+        case GPS_POSITION_MODE_MS_BASED:
+            locMode = LOC_POSITION_MODE_MS_BASED;
+            break;
+        case GPS_POSITION_MODE_MS_ASSISTED:
+            locMode = LOC_POSITION_MODE_MS_ASSISTED;
+            break;
+        default:
+            locMode = LOC_POSITION_MODE_STANDALONE;
+            break;
+        }
 
-    LocPosMode params(locMode, recurrence, min_interval,
-                      preferred_accuracy, preferred_time, NULL, NULL);
-    int ret_val = loc_eng_set_position_mode(loc_afw_data, params);
+        LocPosMode params(locMode, recurrence, min_interval,
+                          preferred_accuracy, preferred_time, NULL, NULL);
+        ret_val = loc_eng_set_position_mode(loc_afw_data, params);
+    } else {
+        //ULP initialized so suppress set_position_mode updates to loc_eng
+        UlpLocationCriteria native_criteria;
+        native_criteria.valid_mask = (ULP_CRITERIA_HAS_ACTION | ULP_CRITERIA_HAS_PROVIDER_SOURCE | ULP_CRITERIA_HAS_RECURRENCE_TYPE |
+                                  ULP_CRITERIA_HAS_MIN_INTERVAL);
+        native_criteria.provider_source = ULP_PROVIDER_SOURCE_GNSS;
+        native_criteria.min_distance = 0; //This is not used by ULP engine so leaving it 0 for now
+
+        if (LOC_POSITION_MODE_MS_ASSISTED == mode)
+            native_criteria.recurrence_type = ULP_LOC_RECURRENCE_SINGLE;
+        else
+            native_criteria.recurrence_type = ULP_LOC_RECURRENCE_PERIODIC;
+
+        //For a GPS client horizontal_accuracy & power_consumption are irrelevant
+        native_criteria.preferred_horizontal_accuracy = ULP_HORZ_ACCURACY_DONT_CARE;
+        native_criteria.preferred_power_consumption = ULP_POWER_REQ_DONT_CARE;
+        native_criteria.action = ULP_ADD_CRITERIA;
+        native_criteria.min_interval = min_interval;
+        loc_afw_data.min_interval_cached = min_interval; //cache a copy
+        loc_afw_data.recurrence_type_cached = native_criteria.recurrence_type; //cache a copy
+        ret_val = loc_eng_update_criteria(loc_afw_data, native_criteria);
+    }
 
     EXIT_LOG(%d, ret_val);
     return ret_val;
@@ -616,7 +628,6 @@ static void loc_delete_aiding_data(GpsAidingData f)
     EXIT_LOG(%s, VOID_RET);
 }
 
-#ifdef FEATURE_ULP
 /*===========================================================================
 FUNCTION    loc_update_criteria
 
@@ -633,48 +644,13 @@ SIDE EFFECTS
    N/A
 
 ===========================================================================*/
-static int loc_update_criteria(UlpLocationCriteria criteria)
+int loc_ulp_engine_update_criteria(UlpLocationCriteria criteria)
 {
     ENTRY_LOG();
     int ret_val = loc_eng_update_criteria(loc_afw_data, criteria);
 
     EXIT_LOG(%d, ret_val);
     return ret_val;
-}
-#endif
-
-const GpsGeofencingInterface* get_geofence_interface(void)
-{
-    ENTRY_LOG();
-    void *handle;
-    const char *error;
-    typedef const GpsGeofencingInterface* (*get_gps_geofence_interface_function) (void);
-    get_gps_geofence_interface_function get_gps_geofence_interface;
-    static const GpsGeofencingInterface* geofence_interface = NULL;
-
-    dlerror();    /* Clear any existing error */
-
-    handle = dlopen ("libgeofence.so", RTLD_NOW);
-
-    if (!handle)
-    {
-        if ((error = dlerror()) != NULL)  {
-            LOC_LOGE ("%s, dlopen for libgeofence.so failed, error = %s\n", __func__, error);
-           }
-        goto exit;
-    }
-    dlerror();    /* Clear any existing error */
-    get_gps_geofence_interface = (get_gps_geofence_interface_function)dlsym(handle, "gps_geofence_get_interface");
-    if ((error = dlerror()) != NULL)  {
-        LOC_LOGE ("%s, dlsym for ulpInterface failed, error = %s\n", __func__, error);
-        goto exit;
-     }
-
-    geofence_interface = get_gps_geofence_interface();
-
-exit:
-    EXIT_LOG(%d, geofence_interface == NULL);
-    return geofence_interface;
 }
 
 /*===========================================================================
@@ -693,11 +669,12 @@ SIDE EFFECTS
    N/A
 
 ===========================================================================*/
-static const void* loc_get_extension(const char* name)
+const void* loc_get_extension(const char* name)
 {
     ENTRY_LOG();
     const void* ret_val = NULL;
 
+   LOC_LOGD("%s:%d] For Interface = %s\n",__func__, __LINE__, name);
    if (strcmp(name, GPS_XTRA_INTERFACE) == 0)
    {
       ret_val = &sLocEngXTRAInterface;
@@ -722,7 +699,10 @@ static const void* loc_get_extension(const char* name)
            ret_val = &sLocEngAGpsRilInterface;
        }
    }
-#ifdef FEATURE_ULP
+   else if (strcmp(name, ULP_ENGINE_INTERFACE) == 0)
+   {
+      ret_val = &sLocEngUlpEngInterface;
+   }
    else if (strcmp(name, ULP_RAW_CMD_INTERFACE) == 0)
    {
       ret_val = &sLocEngInjectRawCmdInterface;
@@ -733,19 +713,9 @@ static const void* loc_get_extension(const char* name)
    }
    else if(strcmp(name, ULP_NETWORK_INTERFACE) == 0)
    {
-     //Return a valid value for ULP Network Interface only if ULP
-     //turned on in gps.conf
-     if(gps_conf.CAPABILITIES & ULP_CAPABILITY)
-         ret_val = &sUlpNetworkInterface;
+     ret_val = &sUlpNetworkInterface;
    }
-#endif
 
-   else if (strcmp(name, GPS_GEOFENCING_INTERFACE) == 0)
-   {
-       if ((gps_conf.CAPABILITIES | GPS_CAPABILITY_GEOFENCING) == gps_conf.CAPABILITIES ){
-           ret_val = get_geofence_interface();
-       }
-   }
    else
    {
       LOC_LOGE ("get_extension: Invalid interface passed in\n");
@@ -1053,7 +1023,6 @@ static void loc_agps_ril_update_network_availability(int available, const char* 
     EXIT_LOG(%s, VOID_RET);
 }
 
-#ifdef FEATURE_ULP
 /*===========================================================================
 FUNCTION    loc_inject_raw_command
 
@@ -1077,33 +1046,39 @@ static bool loc_inject_raw_command(char* command, int length)
     EXIT_LOG(%s, loc_logger_boolStr[ret_val!=0]);
     return ret_val;
 }
-#endif
 
-static void loc_cb(GpsLocation* location, void* locExt)
+static void local_loc_cb(UlpLocation* location, void* locExt)
 {
     ENTRY_LOG();
-    if (NULL != gps_loc_cb && NULL != location) {
-#ifdef FEATURE_ULP
+    if (NULL != location) {
         CALLBACK_LOG_CALLFLOW("location_cb - from", %d, location->position_source);
-#else
-        CALLBACK_LOG_CALLFLOW("location_cb - at", %llu, location->timestamp);
-#endif
-        gps_loc_cb(location);
+        if (ULP_LOCATION_IS_FROM_GNSS == location->position_source ) {
+            if (NULL != gps_loc_cb) {
+                gps_loc_cb(&location->gpsLocation);
+            } else {
+                   LOC_LOGE("Error. GPS not enabled");
+               }
+        } else {
+            if (NULL != ulp_loc_cb) {
+                ulp_loc_cb(location);
+            }
+        }
     }
     EXIT_LOG(%s, VOID_RET);
 }
 
-static void sv_cb(GpsSvStatus* sv_status, void* svExt)
+static void local_sv_cb(GpsSvStatus* sv_status, void* svExt)
 {
     ENTRY_LOG();
     if (NULL != gps_sv_cb) {
         CALLBACK_LOG_CALLFLOW("sv_status_cb -", %d, sv_status->num_svs);
         gps_sv_cb(sv_status);
-    }
+    } else {
+           LOC_LOGE("Error. GPS not enabled");
+       }
     EXIT_LOG(%s, VOID_RET);
 }
 
-#ifdef FEATURE_ULP
 /*===========================================================================
 FUNCTION loc_eng_get_ulp_inf
 
@@ -1130,10 +1105,6 @@ const ulpInterface * loc_eng_get_ulp_inf(void)
     get_ulp_interface* get_ulp_inf;
     const ulpInterface* loc_eng_ulpInf = NULL;
 
-    if (!(gps_conf.CAPABILITIES & ULP_CAPABILITY)) {
-       LOC_LOGD ("%s, ULP is not configured to be On in gps.conf\n", __func__);
-       goto exit;
-    }
     dlerror();    /* Clear any existing error */
 
     handle = dlopen ("libulp2.so", RTLD_NOW);
@@ -1179,7 +1150,8 @@ SIDE EFFECTS
 static int loc_ulp_phone_context_init(UlpPhoneContextCallbacks *callbacks)
 {
     ENTRY_LOG();
-    int ret_val = loc_eng_ulp_phone_context_init(loc_afw_data, callbacks);
+    int ret_val = -1;
+    ret_val = loc_eng_ulp_phone_context_init(loc_afw_data, callbacks);
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
@@ -1228,7 +1200,8 @@ SIDE EFFECTS
 static int loc_ulp_network_init(UlpNetworkLocationCallbacks *callbacks)
 {
    ENTRY_LOG();
-   int ret_val = loc_eng_ulp_network_init(loc_afw_data, callbacks);
+   int ret_val = -1;
+   ret_val = loc_eng_ulp_network_init(loc_afw_data, callbacks);
    EXIT_LOG(%d, ret_val);
    return ret_val;
 }
@@ -1257,4 +1230,169 @@ int loc_ulp_send_network_position(UlpNetworkPositionReport *position_report)
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
-#endif
+
+/*===========================================================================
+FUNCTION    loc_ulp_engine_init
+
+DESCRIPTION
+   Initialize the ULP Engine interface.
+
+DEPENDENCIES
+   NONE
+
+RETURN VALUE
+   0
+
+SIDE EFFECTS
+   N/A
+
+===========================================================================*/
+static int loc_ulp_engine_init(UlpEngineCallbacks* callbacks)
+{
+    int retVal = -1;
+    ENTRY_LOG();
+    if(callbacks == NULL) {
+        LOC_LOGE("loc_ulp_engine_init failed. cb = NULL\n");
+        EXIT_LOG(%d, retVal);
+        return retVal;
+    }
+    //Intilize the ulp call back cache at this point
+    memset(&ulp_cb_data, 0, sizeof(UlpCallbacks));
+    ulp_loc_cb = callbacks->location_cb;
+    retVal = 0;
+    EXIT_LOG(%d, retVal);
+    return retVal;
+}
+
+static int loc_ulp_engine_start()
+{
+    ENTRY_LOG();
+    int ret_val = loc_eng_start(loc_afw_data);
+
+    EXIT_LOG(%d, ret_val);
+    return ret_val;
+}
+
+static int loc_ulp_engine_stop()
+{
+    ENTRY_LOG();
+    int ret_val = loc_eng_stop(loc_afw_data);
+
+    EXIT_LOG(%d, ret_val);
+    return ret_val;
+}
+
+
+/*===========================================================================
+FUNCTION    loc_init
+
+DESCRIPTION
+   Registers the AFW call backs with the local tables
+
+DEPENDENCIES
+   None
+
+RETURN VALUE
+   0: success
+
+SIDE EFFECTS
+   N/Ax
+
+===========================================================================*/
+static int loc_init(GpsCallbacks* callbacks)
+{
+    int retVal = -1;
+    ENTRY_LOG();
+    if(callbacks == NULL) {
+        LOC_LOGE(" loc_init. cb = NULL\n");
+        EXIT_LOG(%d, retVal);
+        return retVal;
+    }
+    memset(&afw_cb_data, NULL, sizeof (LocCallbacks));
+    gps_loc_cb = callbacks->location_cb;
+    afw_cb_data.status_cb = callbacks->status_cb;
+    gps_sv_cb = callbacks->sv_status_cb;
+    afw_cb_data.set_capabilities_cb = callbacks->set_capabilities_cb;
+    afw_cb_data.acquire_wakelock_cb = callbacks->acquire_wakelock_cb;
+    afw_cb_data.release_wakelock_cb = callbacks->release_wakelock_cb;
+    afw_cb_data.request_utc_time_cb = callbacks->request_utc_time_cb;
+    afw_cb_data.nmea_cb = callbacks->nmea_cb;
+    if (NULL != callbacks->set_capabilities_cb) {
+        callbacks->set_capabilities_cb(gps_conf.CAPABILITIES);
+    }
+    retVal = 0;
+    EXIT_LOG(%d, retVal);
+    return retVal;
+}
+
+static void local_nmea_cb(GpsUtcTime timestamp, const char* nmea, int length)
+{
+    ENTRY_LOG();
+    if (0 != length) {
+        if (NULL != afw_cb_data.nmea_cb) {
+             afw_cb_data.nmea_cb(timestamp, nmea, length);
+        } else
+        {
+            LOC_LOGE("Error. GPS not enabled");
+        }
+    }
+    EXIT_LOG(%s, VOID_RET);
+}
+
+static void local_set_capabilities_cb(uint32_t capabilities)
+{
+    ENTRY_LOG();
+    if (NULL != afw_cb_data.set_capabilities_cb) {
+        afw_cb_data.set_capabilities_cb(capabilities);
+    } else {
+           LOC_LOGE("Error. GPS not enabled");
+    }
+    EXIT_LOG(%s, VOID_RET);
+}
+
+static void local_acquire_wakelock_cb(void)
+{
+    ENTRY_LOG();
+    if (NULL != afw_cb_data.acquire_wakelock_cb) {
+        afw_cb_data.acquire_wakelock_cb();
+    } else {
+        LOC_LOGE("Error. GPS not enabled");
+    }
+    EXIT_LOG(%s, VOID_RET);
+}
+
+static void local_release_wakelock_cb(void)
+{
+    ENTRY_LOG();
+    if (NULL != afw_cb_data.release_wakelock_cb) {
+        afw_cb_data.release_wakelock_cb();
+    } else {
+        LOC_LOGE("Error. GPS not enabled");
+    }
+    EXIT_LOG(%s, VOID_RET);
+}
+
+static void local_request_utc_time_cb(void)
+{
+    ENTRY_LOG();
+    if (NULL != afw_cb_data.request_utc_time_cb) {
+        afw_cb_data.request_utc_time_cb();
+    } else {
+        LOC_LOGE("Error. GPS not enabled");
+    }
+    EXIT_LOG(%s, VOID_RET);
+}
+
+static void local_status_cb(GpsStatus* status)
+{
+    ENTRY_LOG();
+    if (NULL != status) {
+        CALLBACK_LOG_CALLFLOW("status_callback - status", %d, status->status);
+        if (NULL != afw_cb_data.status_cb) {
+            afw_cb_data.status_cb(status);
+        } else {
+            LOC_LOGE("Error. GPS not enabled");
+        }
+    }
+    EXIT_LOG(%s, VOID_RET);
+}

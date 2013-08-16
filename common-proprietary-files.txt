@@ -1,6 +1,8 @@
 # Bins
+bin/btnvtool
+bin/fm_qsoc_patches	
+bin/hci_qcomm_init
 bin/mpdecision
-#bin/prepare_param.sh
 
 # Thermal
 bin/thermal-engine
@@ -14,53 +16,41 @@ vendor/firmware/bcm2079xB4_pre_firmware.ncd
 lib/libacdbloader.so
 lib/libaudcal.so
 lib/libcsd-client.so
-#etc/firmware/wcd9310/wcd9310_anc.bin
-#etc/firmware/wcd9310/wcd9310_mbhc.bin
 
 # mmparser extended
+lib/libDivxDrm.so
 lib/libExtendedExtractor.so
+lib/libSHIMDivxDrm.so
 lib/libmmparser.so
 lib/libmmosal.so
-lib/libDivxDrm.so
 
-# Adreno GPU (Available on Nexus 4)
+# Adreno GPU
+etc/firmware/a300_pfp.fw	
+etc/firmware/a300_pm4.fw	
+etc/firmware/vidc_1080p.fw
 lib/egl/eglsubAndroid.so
 lib/egl/libEGL_adreno200.so
 lib/egl/libGLESv1_CM_adreno200.so
+lib/egl/libGLESv2S3D_adreno200.so
 lib/egl/libGLESv2_adreno200.so
 lib/egl/libq3dtools_adreno200.so
-#lib/egl/libplayback_adreno200.so
-#lib/libc2d2_z180.so
 lib/libc2d2_a3xx.so
 lib/libgsl.so
 lib/libllvm-a3xx.so
-#lib/libllvm-arm.so
 lib/libC2D2.so
 lib/libOpenVG.so
 lib/libOpenCL.so
-#lib/libsc-a2xx.so
-lib/libsc-a3xx.so
-#etc/firmware/a225p5_pm4.fw
-#etc/firmware/a225_pfp.fw
-#etc/firmware/a225_pm4.fw
 etc/firmware/a300_pfp.fw
 etc/firmware/a300_pm4.fw
-#etc/firmware/leia_pfp_470.fw
-#etc/firmware/leia_pm4_470.fw
 etc/firmware/vidc_1080p.fw
-#etc/firmware/yamato_pfp.fw
-#etc/firmware/yamato_pm4.fw
 
 # Graphics
 lib/libmm-color-convertor.so
 
 # Radio
 bin/ds_fmc_appd
-#bin/efsks
-#bin/ks
 bin/netmgrd
 bin/sec-ril
-#bin/qcks
 bin/qmiproxy
 bin/qmuxd
 bin/rild
@@ -71,23 +61,23 @@ lib/libdiag.so
 lib/libdsutils.so
 lib/libdsi_netctrl.so
 lib/libfactoryutil.so
-#lib/libidl.so
 lib/libnetmgr.so
 lib/libomission_avoidance.so
 lib/libqdi.so
 lib/libqdp.so
-#lib/libqmi.so
-#lib/libqmiservices.so
-#lib/libqmi_cci.so
-#lib/libqmi_common_so.so
-#lib/libqmi_csi.so
-#lib/libqmi_encdec.so
-#lib/libqcci_legacy.so
-#lib/libqmi_client_qmux.so
 lib/libreference-ril.so
 lib/libril-qcril-hook-oem.so
 lib/libsecril-client.so
 lib/libtime_genoff.so
+vendor/lib/libidl.so
+vendor/lib/libqcci_legacy.so
+vendor/lib/libqmi.so
+vendor/lib/libqmi_cci.so
+vendor/lib/libqmi_client_qmux.so
+vendor/lib/libqmi_common_so.so
+vendor/lib/libqmi_csi.so
+vendor/lib/libqmi_encdec.so
+vendor/lib/libqmiservices.so
 
 
 # GPS
@@ -95,10 +85,8 @@ lib/libgeofence.so
 lib/libloc_api_v02.so
 
 # Sensors
-#lib/libsensirion_j1.so
-#lib/libsam.so
+bin/geomagneticd
 lib/hw/sensors.msm8960.so
-#lib/hw/sensorhubs.msm8960.so
 
 # Camera
 bin/mm-qcamera-daemon
@@ -132,7 +120,6 @@ lib/libmmcamera_faceproc.so
 lib/libmmcamera_frameproc.so
 lib/libmmcamera_hdr_lib.so
 lib/libmmcamera_image_stab.so
-#lib/libmmcamera_imx091.so
 lib/libmmcamera_interface.so
 lib/libmmcamera_interface2.so
 lib/libmmcamera_plugin.so
@@ -144,22 +131,56 @@ lib/libmmmpod.so
 lib/libmmstillomx.so
 lib/liboemcamera.so
 lib/libsecnativefeature.so
-#lib/libvdis.so
+lib/libTsAccm.so
+lib/libTsAwb.so
 
 
 # Wi-Fi
-etc/wifi/cred.conf
+etc/wifi/wpa_supplicant.conf
 
 # Perf
 lib/libqc-opt.so
 
 # DRM
-#bin/qseecomd
-#bin/scranton_RD
+bin/qseecomd
 lib/libdrmdecrypt.so
 lib/libdrmfs.so
 lib/libdrmtime.so
 lib/libhdcp2.so
 lib/libQSEEComAPI.so
 lib/libWVStreamControlAPI_L1.so
+lib/libtzplayready.so
 lib/libwvm.so
+
+
+# Offmode charging
+bin/charger
+bin/lpmkey
+bin/playlpm
+lib/libQmageAndroidDecoderPaddingSo.so
+media/Disconnected.qmg
+media/battery_batteryerror.qmg
+media/battery_charging_5.qmg
+media/battery_charging_10.qmg
+media/battery_charging_15.qmg
+media/battery_charging_20.qmg
+media/battery_charging_25.qmg
+media/battery_charging_30.qmg
+media/battery_charging_35.qmg
+media/battery_charging_40.qmg
+media/battery_charging_45.qmg
+media/battery_charging_50.qmg
+media/battery_charging_55.qmg
+media/battery_charging_60.qmg
+media/battery_charging_65.qmg
+media/battery_charging_70.qmg
+media/battery_charging_75.qmg
+media/battery_charging_80.qmg
+media/battery_charging_85.qmg
+media/battery_charging_90.qmg
+media/battery_charging_95.qmg
+media/battery_charging_100.qmg
+media/battery_error.qmg
+media/chargingwarning.qmg
+
+

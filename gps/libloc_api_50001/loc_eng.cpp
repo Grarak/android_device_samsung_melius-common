@@ -1,4 +1,4 @@
-/* Copyright (c) 2009-2012, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2009-2013, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -46,7 +46,6 @@
 
 #include "LocApiAdapter.h"
 
-#include <cutils/properties.h>
 #include <cutils/sched_policy.h>
 #include <utils/SystemClock.h>
 #include <utils/Log.h>
@@ -68,6 +67,14 @@
 #define SUCCESS TRUE
 #define FAILURE FALSE
 
+#ifndef GPS_CONF_FILE
+#define GPS_CONF_FILE            "/etc/gps.conf"   //??? platform independent
+#endif
+
+#ifndef SAP_CONF_FILE
+#define SAP_CONF_FILE            "/etc/sap.conf"
+#endif
+
 static void loc_eng_deferred_action_thread(void* context);
 static void* loc_eng_create_msg_q();
 static void loc_eng_free_msg(void* msg);
@@ -75,9 +82,11 @@ static void loc_eng_free_msg(void* msg);
 pthread_mutex_t LocEngContext::lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t LocEngContext::cond = PTHREAD_COND_INITIALIZER;
 LocEngContext* LocEngContext::me = NULL;
-boolean gpsConfigAlreadyRead = false;
+boolean configAlreadyRead = false;
+unsigned int agpsStatus = 0;
 
 loc_gps_cfg_s_type gps_conf;
+loc_sap_cfg_s_type sap_conf;
 
 /* Parameter spec table */
 static loc_param_s_type loc_parameter_table[] =
@@ -88,22 +97,22 @@ static loc_param_s_type loc_parameter_table[] =
   {"NMEA_PROVIDER",                  &gps_conf.NMEA_PROVIDER,                  NULL, 'n'},
   {"SUPL_VER",                       &gps_conf.SUPL_VER,                       NULL, 'n'},
   {"CAPABILITIES",                   &gps_conf.CAPABILITIES,                   NULL, 'n'},
-  {"GYRO_BIAS_RANDOM_WALK",          &gps_conf.GYRO_BIAS_RANDOM_WALK,          &gps_conf.GYRO_BIAS_RANDOM_WALK_VALID, 'f'},
-  {"ACCEL_RANDOM_WALK_SPECTRAL_DENSITY",     &gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY,    &gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
-  {"ANGLE_RANDOM_WALK_SPECTRAL_DENSITY",     &gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY,    &gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
-  {"RATE_RANDOM_WALK_SPECTRAL_DENSITY",      &gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY,     &gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
-  {"VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY",  &gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY, &gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
-  {"SENSOR_ACCEL_BATCHES_PER_SEC",   &gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC,   NULL, 'n'},
-  {"SENSOR_ACCEL_SAMPLES_PER_BATCH", &gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH, NULL, 'n'},
-  {"SENSOR_GYRO_BATCHES_PER_SEC",    &gps_conf.SENSOR_GYRO_BATCHES_PER_SEC,    NULL, 'n'},
-  {"SENSOR_GYRO_SAMPLES_PER_BATCH",  &gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH,  NULL, 'n'},
-  {"SENSOR_ACCEL_BATCHES_PER_SEC_HIGH",   &gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH,   NULL, 'n'},
-  {"SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH", &gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH, NULL, 'n'},
-  {"SENSOR_GYRO_BATCHES_PER_SEC_HIGH",    &gps_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH,    NULL, 'n'},
-  {"SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH",  &gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH,  NULL, 'n'},
-  {"SENSOR_CONTROL_MODE",            &gps_conf.SENSOR_CONTROL_MODE,            NULL, 'n'},
-  {"SENSOR_USAGE",                   &gps_conf.SENSOR_USAGE,                   NULL, 'n'},
-  {"SENSOR_ALGORITHM_CONFIG_MASK",   &gps_conf.SENSOR_ALGORITHM_CONFIG_MASK,   NULL, 'n'},
+  {"GYRO_BIAS_RANDOM_WALK",          &sap_conf.GYRO_BIAS_RANDOM_WALK,          &sap_conf.GYRO_BIAS_RANDOM_WALK_VALID, 'f'},
+  {"ACCEL_RANDOM_WALK_SPECTRAL_DENSITY",     &sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY,    &sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
+  {"ANGLE_RANDOM_WALK_SPECTRAL_DENSITY",     &sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY,    &sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
+  {"RATE_RANDOM_WALK_SPECTRAL_DENSITY",      &sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY,     &sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
+  {"VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY",  &sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY, &sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID, 'f'},
+  {"SENSOR_ACCEL_BATCHES_PER_SEC",   &sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC,   NULL, 'n'},
+  {"SENSOR_ACCEL_SAMPLES_PER_BATCH", &sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH, NULL, 'n'},
+  {"SENSOR_GYRO_BATCHES_PER_SEC",    &sap_conf.SENSOR_GYRO_BATCHES_PER_SEC,    NULL, 'n'},
+  {"SENSOR_GYRO_SAMPLES_PER_BATCH",  &sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH,  NULL, 'n'},
+  {"SENSOR_ACCEL_BATCHES_PER_SEC_HIGH",   &sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH,   NULL, 'n'},
+  {"SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH", &sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH, NULL, 'n'},
+  {"SENSOR_GYRO_BATCHES_PER_SEC_HIGH",    &sap_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH,    NULL, 'n'},
+  {"SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH",  &sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH,  NULL, 'n'},
+  {"SENSOR_CONTROL_MODE",            &sap_conf.SENSOR_CONTROL_MODE,            NULL, 'n'},
+  {"SENSOR_USAGE",                   &sap_conf.SENSOR_USAGE,                   NULL, 'n'},
+  {"SENSOR_ALGORITHM_CONFIG_MASK",   &sap_conf.SENSOR_ALGORITHM_CONFIG_MASK,   NULL, 'n'},
   {"QUIPC_ENABLED",                  &gps_conf.QUIPC_ENABLED,                  NULL, 'n'},
   {"LPP_PROFILE",                    &gps_conf.LPP_PROFILE,                    NULL, 'n'},
   {"A_GLONASS_POS_PROTOCOL_SELECT",  &gps_conf.A_GLONASS_POS_PROTOCOL_SELECT,  NULL, 'n'},
@@ -119,31 +128,31 @@ static void loc_default_parameters(void)
    gps_conf.SUPL_VER = 0x10000;
    gps_conf.CAPABILITIES = 0x7;
 
-   gps_conf.GYRO_BIAS_RANDOM_WALK = 0;
-   gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC = 2;
-   gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH = 5;
-   gps_conf.SENSOR_GYRO_BATCHES_PER_SEC = 2;
-   gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH = 5;
-   gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH = 4;
-   gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH = 25;
-   gps_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH = 4;
-   gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH = 25;
-   gps_conf.SENSOR_CONTROL_MODE = 0; /* AUTO */
-   gps_conf.SENSOR_USAGE = 0; /* Enabled */
-   gps_conf.SENSOR_ALGORITHM_CONFIG_MASK = 0; /* INS Disabled = FALSE*/
+   sap_conf.GYRO_BIAS_RANDOM_WALK = 0;
+   sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC = 2;
+   sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH = 5;
+   sap_conf.SENSOR_GYRO_BATCHES_PER_SEC = 2;
+   sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH = 5;
+   sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH = 4;
+   sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH = 25;
+   sap_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH = 4;
+   sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH = 25;
+   sap_conf.SENSOR_CONTROL_MODE = 0; /* AUTO */
+   sap_conf.SENSOR_USAGE = 0; /* Enabled */
+   sap_conf.SENSOR_ALGORITHM_CONFIG_MASK = 0; /* INS Disabled = FALSE*/
 
    /* Values MUST be set by OEMs in configuration for sensor-assisted
       navigation to work. There are NO default values */
-   gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY = 0;
-   gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY = 0;
-   gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY = 0;
-   gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY = 0;
+   sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY = 0;
+   sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY = 0;
+   sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY = 0;
+   sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY = 0;
 
-   gps_conf.GYRO_BIAS_RANDOM_WALK_VALID = 0;
-   gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
-   gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
-   gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
-   gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
+   sap_conf.GYRO_BIAS_RANDOM_WALK_VALID = 0;
+   sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
+   sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
+   sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
+   sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID = 0;
 
       /* LTE Positioning Profile configuration is disable by default*/
    gps_conf.LPP_PROFILE = 0;
@@ -154,10 +163,10 @@ static void loc_default_parameters(void)
 
 LocEngContext::LocEngContext(gps_create_thread threadCreator) :
     deferred_q((const void*)loc_eng_create_msg_q()),
-#ifdef FEATURE_ULP
+
     //TODO: should we conditionally create ulp msg q?
     ulp_q((const void*)loc_eng_create_msg_q()),
-#endif
+
     deferred_action_thread(threadCreator("loc_eng",loc_eng_deferred_action_thread, this)),
     counter(0)
 {
@@ -194,9 +203,9 @@ void LocEngContext::drop()
             pthread_cond_wait(&cond, &lock);
 
             msg_q_destroy((void**)&deferred_q);
-#ifdef FEATURE_ULP
+
             msg_q_destroy((void**)&ulp_q);
-#endif
+
             delete me;
             me = NULL;
         }
@@ -223,8 +232,6 @@ static void loc_eng_process_conn_request(loc_eng_data_s_type &loc_eng_data,
 static void loc_eng_agps_close_status(loc_eng_data_s_type &loc_eng_data, int is_succ);
 static void loc_eng_handle_engine_down(loc_eng_data_s_type &loc_eng_data) ;
 static void loc_eng_handle_engine_up(loc_eng_data_s_type &loc_eng_data) ;
-static int loc_eng_set_privacy(loc_eng_data_s_type &loc_eng_data,
-                               int8_t privacy_setting);
 
 static char extra_data[100];
 /*********************************************************************
@@ -283,19 +290,14 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
                   void (*loc_external_msg_sender) (void*, void*))
 
 {
-    int ret_val =-1;
+    int ret_val = 0;
 
     ENTRY_LOG_CALLFLOW();
     if (NULL == callbacks || 0 == event) {
         LOC_LOGE("loc_eng_init: bad parameters cb %p eMask %d", callbacks, event);
+        ret_val = -1;
         EXIT_LOG(%d, ret_val);
         return ret_val;
-    }
-
-    if (NULL != loc_eng_data.context) {
-        // Current loc_eng_cleanup keeps context initialized, so must enable
-        // here too.
-        loc_eng_set_privacy(loc_eng_data, 1);
     }
 
     STATE_CHECK((NULL == loc_eng_data.context),
@@ -306,9 +308,6 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
     // Create context (msg q + thread) (if not yet created)
     // This will also parse gps.conf, if not done.
     loc_eng_data.context = (void*)LocEngContext::get(callbacks->create_thread_cb);
-    if (NULL != callbacks->set_capabilities_cb) {
-        callbacks->set_capabilities_cb(gps_conf.CAPABILITIES);
-    }
 
     // Save callbacks
     loc_eng_data.location_cb  = callbacks->location_cb;
@@ -335,15 +334,9 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
         loc_eng_data.generateNmea = false;
     }
 
-#ifdef FEATURE_ULP
     LocEng locEngHandle(&loc_eng_data, event, loc_eng_data.acquire_wakelock_cb,
                         loc_eng_data.release_wakelock_cb, loc_eng_msg_sender, loc_external_msg_sender,
                         callbacks->location_ext_parser, callbacks->sv_ext_parser);
-#else
-    LocEng locEngHandle(&loc_eng_data, event, loc_eng_data.acquire_wakelock_cb,
-                        loc_eng_data.release_wakelock_cb, loc_eng_msg_sender,
-                        callbacks->location_ext_parser, callbacks->sv_ext_parser);
-#endif
     loc_eng_data.client_handle = LocApiAdapter::getLocApiAdapter(locEngHandle);
 
     if (NULL == loc_eng_data.client_handle) {
@@ -353,18 +346,9 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
     } else {
         LOC_LOGD("loc_eng_init created client, id = %p\n", loc_eng_data.client_handle);
 
-        // call reinit to send initialization messages
-       int tries = 30;
-       while (tries > 0 &&
-              LOC_API_ADAPTER_ERR_SUCCESS != (ret_val = loc_eng_reinit(loc_eng_data))) {
-           tries--;
-           LOC_LOGD("loc_eng_init client open failed, %d more tries", tries);
-           sleep(1);
-       }
-
-        if (LOC_API_ADAPTER_ERR_SUCCESS == ret_val) {
-            loc_eng_set_privacy(loc_eng_data, 1);
-        }
+        /*send reinit event to QMI instead of call reinit directly*/
+        loc_eng_msg *msg(new loc_eng_msg(locEngHandle.owner, LOC_ENG_MSG_LOC_INIT));
+        locEngHandle.sendMsge(locEngHandle.owner, msg);
     }
 
     EXIT_LOG(%d, ret_val);
@@ -390,7 +374,7 @@ static int loc_eng_reinit(loc_eng_data_s_type &loc_eng_data)
                   lpp_msg, loc_eng_free_msg);
 
         loc_eng_msg_sensor_control_config *sensor_control_config_msg(
-            new loc_eng_msg_sensor_control_config(&loc_eng_data, gps_conf.SENSOR_USAGE));
+            new loc_eng_msg_sensor_control_config(&loc_eng_data, sap_conf.SENSOR_USAGE));
         msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
                   sensor_control_config_msg, loc_eng_free_msg);
 
@@ -400,42 +384,49 @@ static int loc_eng_reinit(loc_eng_data_s_type &loc_eng_data)
                   a_glonass_protocol_msg, loc_eng_free_msg);
 
         /* Make sure at least one of the sensor property is specified by the user in the gps.conf file. */
-        if( gps_conf.GYRO_BIAS_RANDOM_WALK_VALID ||
-            gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
-            gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
-            gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
-            gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID )
+        if( sap_conf.GYRO_BIAS_RANDOM_WALK_VALID ||
+            sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
+            sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
+            sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID ||
+            sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID )
         {
             loc_eng_msg_sensor_properties *sensor_properties_msg(
                 new loc_eng_msg_sensor_properties(&loc_eng_data,
-                                                   gps_conf.GYRO_BIAS_RANDOM_WALK_VALID,
-                                                   gps_conf.GYRO_BIAS_RANDOM_WALK,
-                                                   gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
-                                                   gps_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY,
-                                                   gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
-                                                   gps_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY,
-                                                   gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
-                                                   gps_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY,
-                                                   gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
-                                                   gps_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY));
+                                                   sap_conf.GYRO_BIAS_RANDOM_WALK_VALID,
+                                                   sap_conf.GYRO_BIAS_RANDOM_WALK,
+                                                   sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
+                                                   sap_conf.ACCEL_RANDOM_WALK_SPECTRAL_DENSITY,
+                                                   sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
+                                                   sap_conf.ANGLE_RANDOM_WALK_SPECTRAL_DENSITY,
+                                                   sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
+                                                   sap_conf.RATE_RANDOM_WALK_SPECTRAL_DENSITY,
+                                                   sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY_VALID,
+                                                   sap_conf.VELOCITY_RANDOM_WALK_SPECTRAL_DENSITY));
             msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
                       sensor_properties_msg, loc_eng_free_msg);
         }
 
         loc_eng_msg_sensor_perf_control_config *sensor_perf_control_conf_msg(
             new loc_eng_msg_sensor_perf_control_config(&loc_eng_data,
-                                                       gps_conf.SENSOR_CONTROL_MODE,
-                                                       gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH,
-                                                       gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC,
-                                                       gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH,
-                                                       gps_conf.SENSOR_GYRO_BATCHES_PER_SEC,
-                                                       gps_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH,
-                                                       gps_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH,
-                                                       gps_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH,
-                                                       gps_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH,
-                                                       gps_conf.SENSOR_ALGORITHM_CONFIG_MASK));
+                                                       sap_conf.SENSOR_CONTROL_MODE,
+                                                       sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH,
+                                                       sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC,
+                                                       sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH,
+                                                       sap_conf.SENSOR_GYRO_BATCHES_PER_SEC,
+                                                       sap_conf.SENSOR_ACCEL_SAMPLES_PER_BATCH_HIGH,
+                                                       sap_conf.SENSOR_ACCEL_BATCHES_PER_SEC_HIGH,
+                                                       sap_conf.SENSOR_GYRO_SAMPLES_PER_BATCH_HIGH,
+                                                       sap_conf.SENSOR_GYRO_BATCHES_PER_SEC_HIGH,
+                                                       sap_conf.SENSOR_ALGORITHM_CONFIG_MASK));
         msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
                   sensor_perf_control_conf_msg, loc_eng_free_msg);
+
+        //Send data disable to modem. This will be set to enable when
+        //an UPDATE_NETWORK_STATE event is received from Android
+        loc_eng_msg_set_data_enable *msg(new loc_eng_msg_set_data_enable(&loc_eng_data, NULL,
+                                                                         0, (agpsStatus ? 1:0)));
+        msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
+                  msg, loc_eng_free_msg);
     }
 
     EXIT_LOG(%d, ret_val);
@@ -483,21 +474,17 @@ void loc_eng_cleanup(loc_eng_data_s_type &loc_eng_data)
         loc_eng_stop(loc_eng_data);
     }
 
-    loc_eng_set_privacy(loc_eng_data, 0);
-
 #if 0 // can't afford to actually clean up, for many reason.
 
     ((LocEngContext*)(loc_eng_data.context))->drop();
     loc_eng_data.context = NULL;
 
-#ifdef FEATURE_ULP
     // De-initialize ulp
     if (locEngUlpInf != NULL)
     {
         locEngUlpInf = NULL;
         msg_q_destroy( &loc_eng_data.ulp_q);
     }
-#endif
 
     if (loc_eng_data.client_handle != NULL)
     {
@@ -536,8 +523,7 @@ int loc_eng_start(loc_eng_data_s_type &loc_eng_data)
    ENTRY_LOG_CALLFLOW();
    INIT_CHECK(loc_eng_data.context, return -1);
 
-#ifdef FEATURE_ULP
-   if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+   if(loc_eng_data.ulp_initialized == true)
    {
        //Pass the start messgage to ULP if present & activated
        loc_eng_msg *msg(new loc_eng_msg(&loc_eng_data, ULP_MSG_START_FIX));
@@ -545,7 +531,6 @@ int loc_eng_start(loc_eng_data_s_type &loc_eng_data)
                   msg, loc_eng_free_msg);
    }
    else
-#endif
    {
        loc_eng_msg *msg(new loc_eng_msg(&loc_eng_data, LOC_ENG_MSG_START_FIX));
        msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
@@ -596,8 +581,7 @@ int loc_eng_stop(loc_eng_data_s_type &loc_eng_data)
     ENTRY_LOG_CALLFLOW();
     INIT_CHECK(loc_eng_data.context, return -1);
 
-#ifdef FEATURE_ULP
-    if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+    if(loc_eng_data.ulp_initialized == true)
     {
         //Pass the start messgage to ULP if present & activated
         loc_eng_msg *msg(new loc_eng_msg(&loc_eng_data, ULP_MSG_STOP_FIX));
@@ -605,7 +589,6 @@ int loc_eng_stop(loc_eng_data_s_type &loc_eng_data)
                    msg, loc_eng_free_msg);
     }
     else
-#endif
     {
         loc_eng_msg *msg(new loc_eng_msg(&loc_eng_data, LOC_ENG_MSG_STOP_FIX));
         msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
@@ -1253,6 +1236,14 @@ void loc_eng_agps_ril_update_network_availability(loc_eng_data_s_type &loc_eng_d
                                                   int available, const char* apn)
 {
     ENTRY_LOG_CALLFLOW();
+
+    //This is to store the status of data availability over the network.
+    //If GPS is not enabled, the INIT_CHECK will fail and the modem will
+    //not be updated with the network's availability. Since the data status
+    //can change before GPS is enabled the, storing the status will enable
+    //us to inform the modem after GPS is enabled
+    agpsStatus = available;
+
     INIT_CHECK(loc_eng_data.context, return);
     if (apn != NULL)
     {
@@ -1599,17 +1590,16 @@ static void loc_eng_deferred_action_thread(void* arg)
                     //   2.2.2 we care about inaccuracy; and
                     //   2.2.3 the inaccuracy exceeds our tolerance
                     else if ((LOC_SESS_SUCCESS == rpMsg->status && (
-#ifdef FEATURE_ULP
-                               ((LOCATION_HAS_SOURCE_INFO & rpMsg->location.flags) &&
+                               ((LOCATION_HAS_SOURCE_INFO & rpMsg->location.gpsLocation.flags) &&
                                 ULP_LOCATION_IS_FROM_HYBRID == rpMsg->location.position_source) ||
-#endif
                                ((LOC_POS_TECH_MASK_SATELLITE & rpMsg->technology_mask) ||
-                                (LOC_POS_TECH_MASK_SENSORS & rpMsg->technology_mask)))) ||
+                                (LOC_POS_TECH_MASK_SENSORS & rpMsg->technology_mask)   ||
+                                (LOC_POS_TECH_MASK_HYBRID & rpMsg->technology_mask)))) ||
                              (LOC_SESS_INTERMEDIATE == loc_eng_data_p->intermediateFix &&
-                              !((rpMsg->location.flags & GPS_LOCATION_HAS_ACCURACY) &&
+                              !((rpMsg->location.gpsLocation.flags & GPS_LOCATION_HAS_ACCURACY) &&
                                 (gps_conf.ACCURACY_THRES != 0) &&
-                                (rpMsg->location.accuracy > gps_conf.ACCURACY_THRES)))) {
-                        loc_eng_data_p->location_cb((GpsLocation*)&(rpMsg->location),
+                                (rpMsg->location.gpsLocation.accuracy > gps_conf.ACCURACY_THRES)))) {
+                        loc_eng_data_p->location_cb((UlpLocation*)&(rpMsg->location),
                                                     (void*)rpMsg->locationExt);
                         reported = true;
                     }
@@ -1629,28 +1619,22 @@ static void loc_eng_deferred_action_thread(void* arg)
                     loc_eng_data_p->client_handle->setInSession(false);
                 }
 
-#ifdef FEATURE_ULP
                 if (loc_eng_data_p->generateNmea && rpMsg->location.position_source == ULP_LOCATION_IS_FROM_GNSS)
                 {
-                    loc_eng_nmea_generate_pos(loc_eng_data_p, rpMsg->location, rpMsg->locationExtended);
+                    unsigned char generate_nmea = reported && (rpMsg->status != LOC_SESS_FAILURE);
+                    loc_eng_nmea_generate_pos(loc_eng_data_p, rpMsg->location,
+                                              rpMsg->locationExtended,
+                                              generate_nmea);
                 }
-#else
-                if (loc_eng_data_p->generateNmea && (LOC_POS_TECH_MASK_SATELLITE & rpMsg->technology_mask))
-                {
-                    loc_eng_nmea_generate_pos(loc_eng_data_p, rpMsg->location, rpMsg->locationExtended);
-                }
-#endif
 
-#ifdef FEATURE_ULP
                 // Free the allocated memory for rawData
-                GpsLocation* gp = (GpsLocation*)&(rpMsg->location);
+                UlpLocation* gp = (UlpLocation*)&(rpMsg->location);
                 if (gp != NULL && gp->rawData != NULL)
                 {
                     delete (char*)gp->rawData;
                     gp->rawData = NULL;
                     gp->rawDataSize = 0;
                 }
-#endif
             }
 
             break;
@@ -1826,7 +1810,8 @@ static void loc_eng_deferred_action_thread(void* arg)
         {
             loc_eng_msg_set_data_enable *unaMsg = (loc_eng_msg_set_data_enable*)msg;
             loc_eng_data_p->client_handle->enableData(unaMsg->enable);
-            loc_eng_data_p->client_handle->setAPN(unaMsg->apn, unaMsg->length);
+            if(unaMsg->apn != NULL)
+                loc_eng_data_p->client_handle->setAPN(unaMsg->apn, unaMsg->length);
         }
         break;
 
@@ -1923,7 +1908,6 @@ static void loc_eng_deferred_action_thread(void* arg)
             loc_eng_handle_engine_up(*loc_eng_data_p);
             break;
 
-#ifdef FEATURE_ULP
         case LOC_ENG_MSG_REQUEST_NETWORK_POSIITON:
         {
             loc_eng_msg_request_network_position *nlprequestmsg = (loc_eng_msg_request_network_position*)msg;
@@ -1951,14 +1935,12 @@ static void loc_eng_deferred_action_thread(void* arg)
             }
             else
                 LOC_LOGE("Ulp Phone context request call back not initialized");
-            }
+        }
         break;
-#endif
 
-        case LOC_ENG_MSG_PRIVACY:
+        case LOC_ENG_MSG_LOC_INIT:
         {
-            loc_eng_msg_privacy *privacyMsg = (loc_eng_msg_privacy*)msg;
-            loc_eng_data_p->client_handle->setPrivacy(privacyMsg->privacy_setting);
+            loc_eng_reinit(*loc_eng_data_p);
         }
         break;
 
@@ -1991,7 +1973,7 @@ static void loc_eng_deferred_action_thread(void* arg)
 
     EXIT_LOG(%s, VOID_RET);
 }
-#ifdef FEATURE_ULP
+
 /*===========================================================================
 FUNCTION loc_eng_ulp_init
 
@@ -2052,7 +2034,7 @@ bool loc_eng_inject_raw_command(loc_eng_data_s_type &loc_eng_data,
     LOC_LOGD("loc_eng_send_extra_command: %s\n", command);
     ret_val = TRUE;
 
-    if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+    if(loc_eng_data.ulp_initialized == true)
     {
         ulp_msg_inject_raw_command *msg(
             new ulp_msg_inject_raw_command(&loc_eng_data,command, length));
@@ -2091,7 +2073,7 @@ int loc_eng_update_criteria(loc_eng_data_s_type &loc_eng_data,
     INIT_CHECK(loc_eng_data.context, return -1);
     int ret_val;
 
-    if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+    if(loc_eng_data.ulp_initialized == true)
     {
        LOC_LOGD("SJ:loc_eng_update_criteria: valid 0x%x action:%d, minTime:%ld, minDistance:%f, singleShot:%d, horizontalAccuracy:%d, powerRequirement:%d \n",
          criteria.valid_mask, criteria.action, criteria.min_interval, criteria.min_distance,  criteria.recurrence_type,  criteria.preferred_horizontal_accuracy,
@@ -2140,7 +2122,7 @@ int loc_eng_ulp_phone_context_settings_update(loc_eng_data_s_type &loc_eng_data,
              settings->is_wifi_setting_enabled, settings->is_agps_enabled,
              settings->is_enh_location_services_enabled );
 
-    if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+    if(loc_eng_data.ulp_initialized == true)
     {
         ulp_msg_inject_phone_context_settings *msg
          (new ulp_msg_inject_phone_context_settings(&loc_eng_data, *settings));
@@ -2241,7 +2223,7 @@ int loc_eng_ulp_send_network_position(loc_eng_data_s_type &loc_eng_data,
 {
     ENTRY_LOG();
     int ret_val = 0;
-    if((loc_eng_data.ulp_initialized == true) && (gps_conf.CAPABILITIES & ULP_CAPABILITY))
+    if(loc_eng_data.ulp_initialized == true)
     {
      ulp_msg_inject_network_position *msg
          (new ulp_msg_inject_network_position(&loc_eng_data, *position_report));
@@ -2255,7 +2237,7 @@ int loc_eng_ulp_send_network_position(loc_eng_data_s_type &loc_eng_data,
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
-#endif
+
 /*===========================================================================
 FUNCTION    loc_eng_read_config
 
@@ -2275,14 +2257,15 @@ SIDE EFFECTS
 int loc_eng_read_config(void)
 {
     ENTRY_LOG_CALLFLOW();
-    if(gpsConfigAlreadyRead == false)
+    if(configAlreadyRead == false)
     {
       // Initialize our defaults before reading of configuration file overwrites them.
       loc_default_parameters();
-      // Ee only want to parse the conf file once. This is a good place to ensure that.
+      // We only want to parse the conf file once. This is a good place to ensure that.
       // In fact one day the conf file should go into context.
       UTIL_READ_CONF(GPS_CONF_FILE, loc_parameter_table);
-      gpsConfigAlreadyRead = true;
+      UTIL_READ_CONF(SAP_CONF_FILE, loc_parameter_table);
+      configAlreadyRead = true;
     } else {
       LOC_LOGV("GPS Config file has already been read\n");
     }
@@ -2291,45 +2274,3 @@ int loc_eng_read_config(void)
     return 0;
 }
 
-/*===========================================================================
-FUNCTION    loc_eng_set_privacy
-
-DESCRIPTION
-   Sets the privacy lock setting (1. GPS on, 0. GPS off).
-
-DEPENDENCIES
-   ro.gps.set_privacy system property must be "1" to set privacy lock.
-
-RETURN VALUE
-   0: success
-
-SIDE EFFECTS
-   N/A
-
-===========================================================================*/
-static int loc_eng_set_privacy(loc_eng_data_s_type &loc_eng_data,
-                               int8_t privacy_setting)
-{
-    static const char SET_PRIVACY_PROP[] = "ro.gps.set_privacy";
-    char value[PROPERTY_VALUE_MAX];
-
-    ENTRY_LOG();
-    INIT_CHECK(loc_eng_data.context, return -1);
-    property_get(SET_PRIVACY_PROP, value, "");
-
-    if (strcmp(value, "1") == 0) {
-        LOC_LOGD("%s: Dispatch setPrivacy, privacy_setting=%d.\n", __func__,
-                 privacy_setting);
-
-        loc_eng_msg_privacy *msg(
-            new loc_eng_msg_privacy(&loc_eng_data, privacy_setting));
-        msg_q_snd((void*)((LocEngContext*)(loc_eng_data.context))->deferred_q,
-                  msg, loc_eng_free_msg);
-    } else {
-        LOC_LOGD("%s: Drop setPrivacy, %s=\"%s\" != \"1\".\n", __func__,
-                 SET_PRIVACY_PROP, value);
-    }
-
-    EXIT_LOG(%d, 0);
-    return 0;
-}

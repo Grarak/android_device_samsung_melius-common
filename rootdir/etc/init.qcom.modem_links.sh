@@ -209,8 +209,8 @@ case $linksNeeded in
             break;;
          *)
             log -p w -t PIL 8960 device but no vidc image found;;
-      esac
-
+      esac      
+      
       break;;
 
    *)

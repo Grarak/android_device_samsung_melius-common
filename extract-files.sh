@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -23,61 +23,27 @@ rm -rf $BASE/*
 
 for FILE in `egrep -v '(^#|^$)' ../$DEVICE/device-proprietary-files.txt`; do
   echo "Extracting /system/$FILE ..."
-  OLDIFS=$IFS IFS=":" PARSING_ARRAY=($FILE) IFS=$OLDIFS
-  FILE=${PARSING_ARRAY[0]}
-  DEST=${PARSING_ARRAY[1]}
-  if [ -z $DEST ]
-  then
-    DEST=$FILE
-  fi
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$DEST
-  # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        adb pull /system/$DEST $BASE/$DEST
-    fi
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/system/$FILE $BASE/$DEST
-    # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        cp $SRC/system/$DEST $BASE/$DEST
-    fi
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
 for FILE in `egrep -v '(^#|^$)' ../melius-common/proprietary-files.txt`; do
   echo "Extracting /system/$FILE ..."
-  OLDIFS=$IFS IFS=":" PARSING_ARRAY=($FILE) IFS=$OLDIFS
-  FILE=${PARSING_ARRAY[0]}
-  DEST=${PARSING_ARRAY[1]}
-  if [ -z $DEST ]
-  then
-    DEST=$FILE
-  fi
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$DEST
-  # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        adb pull /system/$DEST $BASE/$DEST
-    fi
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/system/$FILE $BASE/$DEST
-    # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        cp $SRC/system/$DEST $BASE/$DEST
-    fi
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
@@ -85,32 +51,16 @@ BASE=../../../vendor/$VENDOR/melius-common/proprietary
 rm -rf $BASE/*
 for FILE in `egrep -v '(^#|^$)' ../melius-common/common-proprietary-files.txt`; do
   echo "Extracting /system/$FILE ..."
-  OLDIFS=$IFS IFS=":" PARSING_ARRAY=($FILE) IFS=$OLDIFS
-  FILE=${PARSING_ARRAY[0]}
-  DEST=${PARSING_ARRAY[1]}
-  if [ -z $DEST ]
-  then
-    DEST=$FILE
-  fi
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
   if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$DEST
-  # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        adb pull /system/$DEST $BASE/$DEST
-    fi
+    adb pull /system/$FILE $BASE/$FILE
   else
-    cp $SRC/system/$FILE $BASE/$DEST
-    # if file dot not exist try destination
-    if [ "$?" != "0" ]
-        then
-        cp $SRC/system/$DEST $BASE/$DEST
-    fi
+    cp $SRC/system/$FILE $BASE/$FILE
   fi
 done
 
 ./../melius-common/setup-makefiles.sh
+

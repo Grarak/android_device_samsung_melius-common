@@ -1,10 +1,10 @@
-# Copyright (C) 2009 The CyanogenMod Project
+# Copyright (C) 2013 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,17 +20,21 @@
 # definition file).
 #
 
-# inherit from common msm8960
--include device/samsung/msm8960-common/BoardConfigCommon.mk
+# inherit from common msm8930
+-include device/samsung/msm8930-common/BoardConfigCommon.mk
 
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/melius-common/include
 
 # Kernel
-TARGET_KERNEL_SOURCE        := kernel/samsung/melius
-BOARD_KERNEL_CMDLINE        := androidboot.hardware=qcom user_debug=31 zcache
-BOARD_KERNEL_BASE           := 0x80200000
+BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 zcache
+BOARD_KERNEL_BASE := 0x80200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
-BOARD_KERNEL_PAGESIZE       := 2048
+BOARD_KERNEL_PAGESIZE := 2048
+TARGET_KERNEL_SOURCE := kernel/samsung/melius
+TARGET_KERNEL_CONFIG := cyanogen_melius_defconfig
+ifeq ($(HAVE_SELINUX),true)
+TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
+endif
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
@@ -51,10 +55,8 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 196608000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 519782400
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-# bluetooth
+# Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/melius-common/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/melius-common/bluetooth/vnd_jf.txt
-BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8960
@@ -65,20 +67,8 @@ TARGET_NO_INITLOGO := true
 # Use seperate speakerphone device
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true
 
-# Use USB Dock Audio
-BOARD_HAVE_DOCK_USBAUDIO := true
-
-# Use the ES325 dual mic feature
-BOARD_HAVE_AUDIENCE_ES325_2MIC := true
-
-# Samsung's nonstandard csd-client
-BOARD_HAVE_SAMSUNG_CSDCLIENT := true
-
 # Use seperate devices for VOIP
 BOARD_USES_SEPERATED_VOIP := true
 
-# Use seperate devices for 3-pole headset
-BOARD_USES_SEPERATED_HEADSET_MIC := true
-
-# Use retire fence from MDP driver
-TARGET_DISPLAY_USE_RETIRE_FENCE := true
+# Use USB Dock Audio
+BOARD_HAVE_DOCK_USBAUDIO := true
