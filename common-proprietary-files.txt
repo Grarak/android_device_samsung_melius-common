@@ -154,7 +154,6 @@ lib/libwvm.so
 
 
 # Offmode charging
-bin/charger
 bin/lpmkey
 bin/playlpm
 lib/libQmageAndroidDecoderPaddingSo.so
@@ -182,5 +181,3 @@ media/battery_charging_95.qmg
 media/battery_charging_100.qmg
 media/battery_error.qmg
 media/chargingwarning.qmg
-
-
