@@ -31,10 +31,7 @@ BOARD_KERNEL_BASE := 0x80200000
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
 BOARD_KERNEL_PAGESIZE := 2048
 TARGET_KERNEL_SOURCE := kernel/samsung/melius
-TARGET_KERNEL_CONFIG := cyanogen_melius_defconfig
-ifeq ($(HAVE_SELINUX),true)
-TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
-endif
+TARGET_KERNEL_CONFIG := msm8930_melius_01_defconfig
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
