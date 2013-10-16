@@ -77,12 +77,10 @@ SectionVerb
 
 	EnableSequence
 		'HDMI Mixer MultiMedia1':1:1
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia1':1:0
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -161,11 +159,9 @@ SectionVerb
 	Name "HiFiSPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -178,12 +174,10 @@ SectionVerb
 	Name "HiFiSPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -197,12 +191,10 @@ SectionVerb
 	Name "HiFiSPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -216,12 +208,10 @@ SectionVerb
 	Name "HiFiSPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -235,12 +225,10 @@ SectionVerb
 	Name "HiFiSPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -254,12 +242,10 @@ SectionVerb
 	Name "HiFiSPDIF Speaker Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -273,12 +259,10 @@ SectionVerb
 	Name "HiFiSPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -480,12 +464,10 @@ SectionVerb
 
 	EnableSequence
 		'HDMI Mixer MultiMedia2':1:1
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia2':1:0
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -564,11 +546,9 @@ SectionVerb
 	Name "HiFi2SPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -581,12 +561,10 @@ SectionVerb
 	Name "HiFi2SPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -600,12 +578,10 @@ SectionVerb
 	Name "HiFi2SPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -619,12 +595,10 @@ SectionVerb
 	Name "HiFi2SPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -638,12 +612,10 @@ SectionVerb
 	Name "HiFi2SPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -656,13 +628,12 @@ EndSection
 SectionVerb
 	Name "HiFi2SPDIF Speaker Headset"
 
+
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -676,12 +647,10 @@ SectionVerb
 	Name "HiFi2SPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -1137,7 +1106,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:0
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:0
 	EndSequence
@@ -1152,7 +1121,7 @@ SectionVerb
 	Name "Voice CallBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:1
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:1
 	EndSequence
@@ -1173,7 +1142,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:0
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:0
 	EndSequence
@@ -1188,7 +1157,7 @@ SectionVerb
 	Name "Voice CallBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:1
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:1
 	EndSequence
@@ -1299,7 +1268,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer SGLTE':1:0
 		'SGLTE_Tx Mixer INTERNAL_BT_SCO_TX_SGLTE':1:0
 	EndSequence
@@ -1314,7 +1283,7 @@ SectionVerb
 	Name "SGLTE CallBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer SGLTE':1:1
 		'SGLTE_Tx Mixer INTERNAL_BT_SCO_TX_SGLTE':1:1
 	EndSequence
@@ -1335,7 +1304,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer SGLTE':1:0
 		'SGLTE_Tx Mixer INTERNAL_BT_SCO_TX_SGLTE':1:0
 	EndSequence
@@ -1350,7 +1319,7 @@ SectionVerb
 	Name "SGLTE CallBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer SGLTE':1:1
 		'SGLTE_Tx Mixer INTERNAL_BT_SCO_TX_SGLTE':1:1
 	EndSequence
@@ -1444,7 +1413,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:0
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:0
 	EndSequence
@@ -1459,7 +1428,7 @@ SectionVerb
 	Name "Voice Call IPBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:1
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:1
 	EndSequence
@@ -1480,7 +1449,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:0
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:0
 	EndSequence
@@ -1495,7 +1464,7 @@ SectionVerb
 	Name "Voice Call IPBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:1
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:1
 	EndSequence
@@ -1585,13 +1554,13 @@ SectionVerb
 
 	EnableSequence
 		'Internal FM RX Volume':1:0
-		'PRI_RX Port Mixer INTERNAL_FM_TX':1:1
-		'SLIMBUS_DL_HL Switch':1:1
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:1
+		'PRI_I2S_RX_DL_HL Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'PRI_RX Port Mixer INTERNAL_FM_TX':1:0
-		'SLIMBUS_DL_HL Switch':1:0
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:0
+		'PRI_I2S_RX_DL_HL Switch':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -1791,12 +1760,10 @@ SectionVerb
 
 	EnableSequence
 		'HDMI Mixer MultiMedia4':1:1
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia4':1:0
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -1870,11 +1837,9 @@ SectionVerb
 	Name "HiFi TunnelSPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -1886,12 +1851,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -1904,12 +1867,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -1922,12 +1883,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -1940,12 +1899,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -1958,12 +1915,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF Speaker Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -1976,12 +1931,10 @@ SectionVerb
 	Name "HiFi TunnelSPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -2237,7 +2190,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer VoLTE':1:0
 		'VoLTE_Tx Mixer INTERNAL_BT_SCO_TX_VoLTE':1:0
 	EndSequence
@@ -2252,7 +2205,7 @@ SectionVerb
 	Name "VoLTE CallBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer VoLTE':1:1
 		'VoLTE_Tx Mixer INTERNAL_BT_SCO_TX_VoLTE':1:1
 	EndSequence
@@ -2273,7 +2226,7 @@ SectionVerb
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer VoLTE':1:0
 		'VoLTE_Tx Mixer INTERNAL_BT_SCO_TX_VoLTE':1:0
 	EndSequence
@@ -2288,7 +2241,7 @@ SectionVerb
 	Name "VoLTE CallBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer VoLTE':1:1
 		'VoLTE_Tx Mixer INTERNAL_BT_SCO_TX_VoLTE':1:1
 	EndSequence
@@ -2873,8 +2826,8 @@ SectionDevice
 		'RX4 MIX1 INP1':0:RX1
 		'SLIM RX1 MUX':0:AIF1_PB
 		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':2:87.5%
+		'RX4 Digital Volume':1:67.7%
+		'SPK DRV Volume':1:100%
 	EndSequence
 
 	DisableSequence
@@ -2887,7 +2840,6 @@ SectionDevice
 
 	ACDBID	15:1
 	EffectsMixerCTL "SRS TruMedia"
-	EC_REF_RXMixerCTL "I2S_RX"
 
 EndSection
 
@@ -2913,31 +2865,6 @@ SectionDevice
 	EndSequence
 
 	ACDBID 15:1
-
-EndSection
-
-SectionDevice
-	Name "Sub Mic"
-	Comment "Sub Mic Tx device"
-
-	EnableSequence
-		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC3
-		'ADC3 Volume':1:63.2%
-		'DEC4 Volume':2:67.7%
-	EndSequence
-
-	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
-		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
-		'ADC3 Volume':1:0
-		'DEC4 Volume':1:0
-	EndSequence
-
-	ACDBID  11:2
 
 EndSection
 
@@ -3209,26 +3136,20 @@ SectionDevice
 	Comment "Speaker FM Tx combo device"
 
 	EnableSequence
-		'PRI_RX Channels':0:Two
-		'RX3 MIX1 INP1':0:RX1
-		'RX5 MIX1 INP1':0:RX2
-		'RX4 DSM MUX':0:DSM_INV
-		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
+		'PRI_RX Channels':0:One
+		'RX4 MIX1 INP1':0:RX1
+		'SLIM RX1 MUX':0:AIF1_PB
+		'SPK DAC Switch':1:1
+		'RX4 Digital Volume':1:68%
+		'SPK DRV Volume':2:87.5%
 	EndSequence
 
 	DisableSequence
-		'RX3 MIX1 INP1':0:ZERO
-		'RX5 MIX1 INP1':0:ZERO
-		'RX4 DSM MUX':0:CIC_OUT
-		'RX6 DSM MUX':0:CIC_OUT
-		'LINEOUT1 Volume':1:0
-		'LINEOUT2 Volume':1:0
-		'LINEOUT3 Volume':1:0
-		'LINEOUT4 Volume':1:0
+		'RX4 MIX1 INP1':0:ZERO
+		'SLIM RX1 MUX':0:ZERO
+		'SPK DAC Switch':1:0
+		'RX4 Digital Volume':1:0
+		'SPK DRV Volume':1:0%
 	EndSequence
 
 	ACDBID	15:1
@@ -3350,7 +3271,7 @@ SectionDevice
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:67.8%
+		'ADC1 Volume':2:78.4%
 		'ADC3 Volume':2:78.4%
 		'DEC1 Volume':2:77.7%
 		'DEC2 Volume':2:77.7%
@@ -3581,7 +3502,7 @@ SectionDevice
 		'AIF1_CAP Mixer SLIM TX1':1:1
 		'SLIM TX1 MUX':0:DEC4
 		'DEC4 MUX':0:ADC3
-		'ADC3 Volume':1:63.2%
+		'ADC3 Volume':1:100%
 		'DEC4 Volume':2:67.7%
 	EndSequence
 
@@ -3610,7 +3531,7 @@ SectionDevice
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:67.8%
+		'ADC1 Volume':2:78.4%
 		'ADC3 Volume':2:78.4%
 		'DEC1 Volume':2:77.7%
 		'DEC2 Volume':2:77.7%
@@ -3646,7 +3567,7 @@ EndSection
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:67.8%
+		'ADC1 Volume':2:78.4%
 		'ADC3 Volume':2:78.4%
 		'DEC1 Volume':2:77.7%
 		'DEC2 Volume':2:77.7%
@@ -3904,8 +3825,8 @@ SectionDevice
 	DisableSequence
 	EndSequence
 
-	ACDBID	0:1
-	EffectsMixerCTL "SRS TruMedia FM"
+	ACDBID	166:2
+	EffectsMixerCTL "SRS TruMedia"
 
 EndSection
 
@@ -3919,7 +3840,7 @@ SectionDevice
 	DisableSequence
 	EndSequence
 
-	ACDBID	20:1
+	ACDBID	10:1
 	EffectsMixerCTL "SRS TruMedia"
 
 EndSection
@@ -3980,26 +3901,20 @@ SectionDevice
 	Comment "SPDIF + Speaker Rx device"
 
 	EnableSequence
-		'PRI_RX Channels':0:Two
-		'RX3 MIX1 INP1':0:RX1
-		'RX5 MIX1 INP1':0:RX2
-		'RX4 DSM MUX':0:DSM_INV
-		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
+		'PRI_RX Channels':0:One
+		'RX4 MIX1 INP1':0:RX1
+		'SLIM RX1 MUX':0:AIF1_PB
+		'SPK DAC Switch':1:1
+		'RX4 Digital Volume':1:68%
+		'SPK DRV Volume':2:87.5%
 	EndSequence
 
 	DisableSequence
-		'RX3 MIX1 INP1':0:ZERO
-		'RX5 MIX1 INP1':0:ZERO
-		'RX4 DSM MUX':0:CIC_OUT
-		'RX6 DSM MUX':0:CIC_OUT
-		'LINEOUT1 Volume':1:0
-		'LINEOUT2 Volume':1:0
-		'LINEOUT3 Volume':1:0
-		'LINEOUT4 Volume':1:0
+		'RX4 MIX1 INP1':0:ZERO
+		'SLIM RX1 MUX':0:ZERO
+		'SPK DAC Switch':1:0
+		'RX4 Digital Volume':1:0
+		'SPK DRV Volume':1:0%
 	EndSequence
 
 	ACDBID	15:1
@@ -4266,30 +4181,25 @@ SectionDevice
 	Comment "PROXY Rx + Speaker Rx device combo device"
 
 	EnableSequence
-		'PRI_RX Channels':0:Two
-		'RX3 MIX1 INP1':0:RX1
-		'RX5 MIX1 INP1':0:RX2
-		'RX4 DSM MUX':0:DSM_INV
-		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
+		'PRI_RX Channels':0:One
+		'RX4 MIX1 INP1':0:RX1
+		'SLIM RX1 MUX':0:AIF1_PB
+		'SPK DAC Switch':1:1
+		'RX4 Digital Volume':1:68%
+		'SPK DRV Volume':2:87.5%
 	EndSequence
 
 	DisableSequence
-		'RX3 MIX1 INP1':0:ZERO
-		'RX5 MIX1 INP1':0:ZERO
-		'RX4 DSM MUX':0:CIC_OUT
-		'RX6 DSM MUX':0:CIC_OUT
-		'LINEOUT1 Volume':1:0
-		'LINEOUT2 Volume':1:0
-		'LINEOUT3 Volume':1:0
-		'LINEOUT4 Volume':1:0
+		'RX4 MIX1 INP1':0:ZERO
+		'SLIM RX1 MUX':0:ZERO
+		'SPK DAC Switch':1:0
+		'RX4 Digital Volume':1:0
+		'SPK DRV Volume':1:0%
 	EndSequence
 
 	ACDBID	15:1
 	EffectsMixerCTL "SRS TruMedia"
+	EC_REF_RXMixerCTL "I2S_RX"
 
 EndSection
 
@@ -4327,14 +4237,6 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'RX3 MIX1 INP1':0:RX1
-		'RX5 MIX1 INP1':0:RX2
-		'RX4 DSM MUX':0:DSM_INV
-		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
 		'RX1 MIX1 INP1':0:RX1
 		'RX2 MIX1 INP1':0:RX2
 		'HPHL DAC Switch':1:1
@@ -4344,14 +4246,6 @@ SectionDevice
 	EndSequence
 
 	DisableSequence
-		'RX3 MIX1 INP1':0:ZERO
-		'RX5 MIX1 INP1':0:ZERO
-		'RX4 DSM MUX':0:CIC_OUT
-		'RX6 DSM MUX':0:CIC_OUT
-		'LINEOUT1 Volume':1:0
-		'LINEOUT2 Volume':1:0
-		'LINEOUT3 Volume':1:0
-		'LINEOUT4 Volume':1:0
 		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
 		'HPHL DAC Switch':1:0
@@ -4582,12 +4476,10 @@ SectionModifier
 
 	EnableSequence
 		'HDMI Mixer MultiMedia1':1:1
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia1':1:0
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -4728,12 +4620,10 @@ SectionModifier
 
 	EnableSequence
 		'HDMI Mixer MultiMedia2':1:1
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia2':1:0
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -4800,13 +4690,34 @@ SectionModifier
 
 	EnableSequence
 		'Internal FM RX Volume':1:0
-		'PRI_RX Port Mixer INTERNAL_FM_TX':1:1
-		'SLIMBUS_DL_HL Switch':1:1
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:1
+		'PRI_I2S_RX_DL_HL Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'PRI_RX Port Mixer INTERNAL_FM_TX':1:0
-		'SLIMBUS_DL_HL Switch':1:0
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:0
+		'PRI_I2S_RX_DL_HL Switch':1:0
+	EndSequence
+
+	# ALSA PCMs
+	PlaybackPCM 5
+	CapturePCM 6
+	PlaybackVolume "Internal FM RX Volume"
+
+EndSection
+
+SectionModifier
+	Name "Play FMSpeaker FM Tx"
+
+	EnableSequence
+		'Internal FM RX Volume':1:0
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:1
+		'PRI_I2S_RX_DL_HL Switch':1:1
+	EndSequence
+
+	DisableSequence
+		'PRI_I2S_RX Port Mixer INTERNAL_FM_TX':1:0
+		'PRI_I2S_RX_DL_HL Switch':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -5062,8 +4973,8 @@ SectionModifier
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
-		'INTERNAL_BT_SCO_RX_RX_Voice Mixer CSVoice':1:0
+		'Internal BTSCO SampleRate':1:8000
+		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:0
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:0
 	EndSequence
 
@@ -5077,7 +4988,7 @@ SectionModifier
 	Name "Play VoiceBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:1
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:1
 	EndSequence
@@ -5098,7 +5009,7 @@ SectionModifier
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:0
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:0
 	EndSequence
@@ -5113,7 +5024,7 @@ SectionModifier
 	Name "Play VoiceBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer CSVoice':1:1
 		'Voice_Tx Mixer INTERNAL_BT_SCO_TX_Voice':1:1
 	EndSequence
@@ -5185,7 +5096,7 @@ SectionModifier
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:0
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:0
 	EndSequence
@@ -5200,7 +5111,7 @@ SectionModifier
 	Name "Play VOIPBT SCO Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:1
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:1
 	EndSequence
@@ -5221,7 +5132,7 @@ SectionModifier
 	EndSequence
 
 	DisableSequence
-		'Internal BTSCO SampleRate':0:8000
+		'Internal BTSCO SampleRate':1:8000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:0
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:0
 	EndSequence
@@ -5236,7 +5147,7 @@ SectionModifier
 	Name "Play VOIPBT SCO WB Tx"
 
 	EnableSequence
-		'Internal BTSCO SampleRate':0:16000
+		'Internal BTSCO SampleRate':1:16000
 		'INTERNAL_BT_SCO_RX_Voice Mixer Voip':1:1
 		'Voip_Tx Mixer INTERNAL_BT_SCO_TX_Voip':1:1
 	EndSequence
@@ -5391,12 +5302,10 @@ SectionModifier
 
 	EnableSequence
 		'HDMI Mixer MultiMedia4':1:1
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
 		'HDMI Mixer MultiMedia4':1:0
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -5723,11 +5632,9 @@ SectionModifier
 	Name "Play MusicSPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -5740,12 +5647,10 @@ SectionModifier
 	Name "Play MusicSPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5759,12 +5664,10 @@ SectionModifier
 	Name "Play MusicSPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5778,12 +5681,10 @@ SectionModifier
 	Name "Play MusicSPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5797,12 +5698,10 @@ SectionModifier
 	Name "Play MusicSPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5816,12 +5715,10 @@ SectionModifier
 	Name "Play MusicSPDIF Speaker Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5835,12 +5732,10 @@ SectionModifier
 	Name "Play MusicSPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:1
 		'PRI_RX Audio Mixer MultiMedia1':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia1':1:0
 		'PRI_RX Audio Mixer MultiMedia1':1:0
 	EndSequence
 
@@ -5854,11 +5749,9 @@ SectionModifier
 	Name "Play Music2SPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -5871,12 +5764,10 @@ SectionModifier
 	Name "Play Music2SPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5890,12 +5781,10 @@ SectionModifier
 	Name "Play Music2SPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5909,12 +5798,10 @@ SectionModifier
 	Name "Play Music2SPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5928,12 +5815,10 @@ SectionModifier
 	Name "Play Music2SPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5947,12 +5832,10 @@ SectionModifier
 	Name "Play Music2SPDIF Speaker Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5966,12 +5849,10 @@ SectionModifier
 	Name "Play Music2SPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:1
 		'PRI_RX Audio Mixer MultiMedia2':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia2':1:0
 		'PRI_RX Audio Mixer MultiMedia2':1:0
 	EndSequence
 
@@ -5985,11 +5866,9 @@ SectionModifier
 	Name "Play TunnelSPDIF"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
 	# ALSA PCMs
@@ -6001,12 +5880,10 @@ SectionModifier
 	Name "Play TunnelSPDIF Speaker"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -6019,12 +5896,10 @@ SectionModifier
 	Name "Play TunnelSPDIF Earpiece"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -6037,12 +5912,10 @@ SectionModifier
 	Name "Play TunnelSPDIF Headphones"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -6055,12 +5928,10 @@ SectionModifier
 	Name "Play TunnelSPDIF ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -6073,12 +5944,10 @@ SectionModifier
 	Name "Play TunnelSPDIF Speaker Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 
@@ -6091,12 +5960,10 @@ SectionModifier
 	Name "Play TunnelSPDIF Speaker ANC Headset"
 
 	EnableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:1
 		'PRI_RX Audio Mixer MultiMedia4':1:1
 	EndSequence
 
 	DisableSequence
-		'SEC_RX Audio Mixer MultiMedia4':1:0
 		'PRI_RX Audio Mixer MultiMedia4':1:0
 	EndSequence
 

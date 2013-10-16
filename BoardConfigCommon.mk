@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,31 +25,34 @@
 
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/melius-common/include
 
+# FM radio
+COMMON_GLOBAL_CFLAGS += -DQCOM_FM_ENABLED
+
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.hardware=qcom user_debug=31 zcache
-BOARD_KERNEL_BASE := 0x80200000
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000
-BOARD_KERNEL_PAGESIZE := 2048
-TARGET_KERNEL_SOURCE := kernel/samsung/msm8930-common
-TARGET_KERNEL_CONFIG := msm8930_melius_01_defconfig
+BOARD_KERNEL_CMDLINE         := console=null androidboot.hardware=qcom user_debug=31
+BOARD_KERNEL_BASE            := 0x80200000
+BOARD_MKBOOTIMG_ARGS         := --ramdisk_offset 0x02000000
+BOARD_KERNEL_PAGESIZE        := 2048
+TARGET_KERNEL_SOURCE         := kernel/samsung/msm8930-common
+TARGET_KERNEL_CONFIG         := msm8930_melius_01_defconfig 
+TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
 # Recovery
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/melius-common/recovery/recovery_keys.c
-BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/serrano-common/recovery/graphics.c
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/serrano-common/recovery/recovery_keys.c
 BOARD_USES_MMCUTILS := true
-BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/etc/fstab.qcom
-RECOVERY_FSTAB_VERSION := 2
+TARGET_RECOVERY_FSTAB := device/samsung/serrano-common/rootdir/fstab.qcom
+TARGET_RECOVERY_INITRC := device/samsung/serrano-common/rootdir/init.recovery.rc
 
 TARGET_USERIMAGES_USE_EXT4 := true
-BOARD_BOOTIMAGE_PARTITION_SIZE := 1024000
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 1024000
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 196608000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 519782400
+BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 10485760
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1572864000
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 5821676544
+BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Bluetooth

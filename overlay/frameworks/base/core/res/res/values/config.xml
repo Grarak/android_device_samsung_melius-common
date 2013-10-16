@@ -43,7 +43,6 @@
         <item>"mobile_dun,4,0,2,60000,true"</item>
         <item>"mobile_hipri,5,0,3,60000,true"</item>
         <item>"bluetooth,7,7,2,-1,true"</item>
-        <item>"wifi_p2p,13,1,0,-1,true"</item>
     </string-array>
 
     <!-- An Array of "[ConnectivityManager connectionType],
@@ -88,6 +87,9 @@
 
     <!-- Boolean indicating whether the wifi chipset has dual frequency band support -->
     <bool translatable="false" name="config_wifi_dual_band_support">true</bool>
+
+    <!-- Boolean indicating whether the wifi chipset has background scan support -->
+    <bool translatable="false" name="config_wifi_background_scan_support">true</bool>
 
     <!-- Control whether being in the desk dock should enable accelerometer
          based screen orientation.  This defaults to true because it is
@@ -211,6 +213,20 @@
 
     <bool name="config_enableWifiDisplay">true</bool>
 
+    <!-- Set to true if the wifi display supports compositing content stored
+         in gralloc protected buffers.  For this to be true, there must exist
+         a protected hardware path for surface flinger to composite and send
+         protected buffers to the wifi display video encoder.
+
+         If this flag is false, we advise applications not to use protected
+         buffers (if possible) when presenting content to a wifi display because
+         the content may be blanked.
+
+         This flag controls whether the {@link Display#FLAG_SUPPORTS_PROTECTED_BUFFERS}
+         flag is set for wifi displays.
+    -->
+    <bool name="config_wifiDisplaySupportsProtectedBuffers">true</bool>
+
      <!-- Workaround for devices with broken keyboards -->
     <bool name="config_forceDisableHardwareKeyboard">true</bool>
 
@@ -231,4 +247,8 @@
 
     <!-- Integer to configure panel auto brightness mode when changed -->
     <integer name="config_panelAutoBrightnessValue">1</integer>
+
+    <!-- True if the Irda service should be started at system start. This currently only
+         supports Samsung Galaxy S4. -->
+    <bool name="config_enableIrdaManagerService">true</bool>
 </resources>

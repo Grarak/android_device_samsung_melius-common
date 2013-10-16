@@ -63,4 +63,3 @@ for FILE in `egrep -v '(^#|^$)' ../melius-common/common-proprietary-files.txt`; 
 done
 
 ./../melius-common/setup-makefiles.sh
-

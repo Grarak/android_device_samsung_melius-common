@@ -20,10 +20,7 @@ $(call inherit-product-if-exists, vendor/samsung/melius-common/melius-common-ven
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += device/samsung/melius-common/overlay
 
-# This device is xhdpi. However the platform doesn't
-# currently contain all of the bitmaps at xhdpi density so
-# we do this little trick to fall back to the hdpi version
-# if the xhdpi doesn't exist.
+# Device uses high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
@@ -40,11 +37,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml
 
-# GPS
-PRODUCT_PACKAGES += \
-    gps.msm8960 \
-    gps.conf \
-    sap.conf
+# Expose Irda feature
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/system/etc/permissions/com.sec.feature.irda_service.xml:system/etc/permissions/com.sec.feature.irda_service.xml
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -59,45 +54,74 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/ue_rf4ce_remote.kl:system/usr/keylayout/ue_rf4ce_remote.kl
 
 # Ramdisk
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-    initlogo.rle \
-    init.bt.rc \
-    init.carrier.rc \
-    init.qcom.rc \
-    init.qcom.usb.rc \
-    init.target.rc \
-    ueventd.qcom.rc
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/charger:root/charger \
+    $(LOCAL_PATH)/rootdir/charger:recovery/root/charger \
+    $(LOCAL_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
+    $(LOCAL_PATH)/rootdir/lpm.rc:root/lpm.rc \
+    $(LOCAL_PATH)/rootdir/lpm.rc:recovery/root/lpm.rc \
+    $(LOCAL_PATH)/rootdir/init.carrier.rc:root/init.carrier.rc \
+    $(LOCAL_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
+    $(LOCAL_PATH)/rootdir/init.qcom.usb.rc:root/init.qcom.usb.rc \
+    $(LOCAL_PATH)/rootdir/init.target.rc:root/init.target.rc \
+    $(LOCAL_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
 
 # Etc scripts
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.audio.sh:system/etc/init.qcom.audio.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.modem_links.sh:system/etc/init.qcom.modem_links.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.wifi.sh:system/etc/init.qcom.wifi.sh
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/rootdir/system/etc/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+
+# Config files for hostapd
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd_default.conf:system/etc/hostapd/hostapd_default.conf \
+    $(LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd.accept:system/etc/hostapd/hostapd.accept \
+    $(LOCAL_PATH)/rootdir/system/etc/hostapd/hostapd.deny:system/etc/hostapd/hostapd.deny
+
+# SoftAP
 PRODUCT_PACKAGES += \
-    init.qcom.audio.sh \
-    init.qcom.bt.sh \
-    init.qcom.fm.sh \
-    init.qcom.mdm_links.sh \
-    init.qcom.modem_links.sh \
-    init.qcom.wifi.sh
+    libQWiFiSoftApCfg \
+    libqsap_sdk
+
+# GPS
+PRODUCT_PACKAGES += \
+    gps.msm8960 \
+    gps.conf \
+    sap.conf
+
+# FM radio
+PRODUCT_PACKAGES += \
+    qcom.fmradio \
+    libqcomfm_jni \
+    FM2 \
+    FMRecord
 
 # Torch
 PRODUCT_PACKAGES += Torch
+
+# Lights
+PRODUCT_PACKAGES += lights.msm8960
+
+# Irda
+PRODUCT_PACKAGES += irda.msm8960
+
+# QRNGD
+PRODUCT_PACKAGES += qrngd
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
-# Lights
-PRODUCT_PACKAGES += lights.msm8960
-
-# Increase the HWUI font cache since we have tons of RAM
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hwui.text_cache_width=2048
-
 # QC Perf
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.extension_library=/system/lib/libqc-opt.so
-
-# QRNGD
-PRODUCT_PACKAGES += qrngd
 
 #common build.props
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -108,21 +132,21 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.dont_use_dsd=true \
     persist.radio.apm_sim_not_pwdn=1 \
     ro.qualcomm.bt.hci_transport=smd \
-    ro.telephony.call_ring.multiple=0 \
     ro.sf.lcd_density=240 \
     ro.ril.transmitpower=true \
     ro.warmboot.capability=1 \
     ro.qualcomm.cabl=0 \
-    ro.opengles.version=131072 \
-    debug.gr.numframebuffers=3 \
+    ro.opengles.version=196608 \
+    debug.hwui.render_dirty_regions=false \
+    hwui.use_gpu_pixel_buffers=true \
     af.resampler.quality=255 \
     persist.audio.fluence.mode=endfire \
     persist.audio.vr.enable=false \
     persist.audio.handset.mic=digital \
+    ro.fm.transmitter=false \
     ro.use_data_netmgrd=true \
     lpa.decode=true \
     lpa.use-stagefright=true \
-    qcom.hw.aac.encoder=true \
     rild.libpath=/system/lib/libril-qc-qmi-1.so \
     persist.rild.nitz_plmn="" \
     persist.rild.nitz_long_ons_0="" \
@@ -135,28 +159,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.rild.nitz_short_ons_3="" \
     ril.subscription.types=NV,RUIM \
     persist.gps.qmienabled=true \
-    persist.gps.qc_nlp_in_use=0
-
-
-# NFC permissions
-PRODUCT_COPY_FILES += \
-    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml
-
-# NFC packages
-PRODUCT_PACKAGES += \
-    libnfc-nci \
-    libnfc_nci_jni \
-    nfc_nci.msm8960 \
-    NfcNci \
-    Tag \
-    com.android.nfc_extras
-
-# NFCEE access control + configuration
-NFCEE_ACCESS_PATH := device/samsung/melius-common/nfc/nfcee_access.xml
-PRODUCT_COPY_FILES += \
-    $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml \
-    $(LOCAL_PATH)/nfc/libnfc-brcm.conf:system/etc/libnfc-brcm.conf
+    persist.gps.qc_nlp_in_use=0 \
+    persist.fuse_sdcard=true \
+    ro.vold.umsdirtyratio=50 \
+    ro.cwm.enable_key_repeat=true
 
 # For userdebug builds
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -167,4 +173,3 @@ $(call inherit-product, device/samsung/msm8930-common/msm8930.mk)
 
 # call dalvik heap config
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
-
