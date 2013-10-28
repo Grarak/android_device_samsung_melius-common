@@ -49,7 +49,6 @@ etc/firmware/vidc_1080p.fw
 lib/libmm-color-convertor.so
 lib/libNimsWrap.so
 lib/libcnefeatureconfig.so
-lib/libnetcmdiface.so
 
 # Radio
 bin/ds_fmc_appd
