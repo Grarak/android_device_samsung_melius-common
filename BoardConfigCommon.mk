@@ -39,6 +39,8 @@ TARGET_KERNEL_SOURCE         := kernel/samsung/msm8930-common
 TARGET_KERNEL_CONFIG         := cyanogen_melius_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 
+TARGET_GCC_VERSION := 4.6
+
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
 # Recovery
