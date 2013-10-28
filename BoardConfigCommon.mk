@@ -34,18 +34,18 @@ BOARD_KERNEL_BASE            := 0x80200000
 BOARD_MKBOOTIMG_ARGS         := --ramdisk_offset 0x02000000
 BOARD_KERNEL_PAGESIZE        := 2048
 TARGET_KERNEL_SOURCE         := kernel/samsung/msm8930-common
-TARGET_KERNEL_CONFIG         := msm8930_melius_01_defconfig 
+TARGET_KERNEL_CONFIG         := cyanogen_melius_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
 # Recovery
-BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/serrano-common/recovery/graphics.c
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/serrano-common/recovery/recovery_keys.c
+BOARD_CUSTOM_GRAPHICS := ../../../device/samsung/melius-common/recovery/graphics.c
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/melius-common/recovery/recovery_keys.c
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
-TARGET_RECOVERY_FSTAB := device/samsung/serrano-common/rootdir/fstab.qcom
-TARGET_RECOVERY_INITRC := device/samsung/serrano-common/rootdir/init.recovery.rc
+TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
+TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.recovery.rc
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
