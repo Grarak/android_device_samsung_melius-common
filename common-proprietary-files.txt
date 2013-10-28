@@ -37,6 +37,7 @@ lib/egl/libq3dtools_adreno200.so
 lib/libc2d2_a3xx.so
 lib/libgsl.so
 lib/libllvm-a3xx.so
+lib/libsc-a3xx.so
 lib/libC2D2.so
 lib/libOpenVG.so
 lib/libOpenCL.so
@@ -46,6 +47,9 @@ etc/firmware/vidc_1080p.fw
 
 # Graphics
 lib/libmm-color-convertor.so
+lib/libNimsWrap.so
+lib/libcnefeatureconfig.so
+lib/libnetcmdiface.so
 
 # Radio
 bin/ds_fmc_appd
@@ -133,6 +137,8 @@ lib/liboemcamera.so
 lib/libsecnativefeature.so
 lib/libTsAccm.so
 lib/libTsAwb.so
+lib/libmmcamera_wavelet_lib.so
+lib/libqc-opt.so
 
 
 # Wi-Fi
