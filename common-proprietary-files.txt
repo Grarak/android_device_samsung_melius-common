@@ -44,7 +44,6 @@ lib/libOpenCL.so
 etc/firmware/a300_pfp.fw
 etc/firmware/a300_pm4.fw
 etc/firmware/vidc_1080p.fw
-etc/snd_soc_msm/snd_soc_msm_Sitar
 
 # Graphics
 lib/libmm-color-convertor.so
