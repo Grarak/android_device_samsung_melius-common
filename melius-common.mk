@@ -68,12 +68,14 @@ PRODUCT_COPY_FILES += \
 
 # Etc scripts
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.audio.sh:system/etc/init.qcom.audio.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.modem_links.sh:system/etc/init.qcom.modem_links.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.wifi.sh:system/etc/init.qcom.wifi.sh
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.class_core.sh:system/etc/init.qcom.class_core.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.class_main.sh:system/etc/init.qcom.class_main.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.early_boot.sh:system/etc/init.qcom.early_boot.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.lpm_boot.sh:system/etc/init.qcom.lpm_boot.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.ril.sh:system/etc/init.qcom.ril.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.sh:system/etc/init.qcom.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.syspart_fixup.sh:system/etc/init.qcom.syspart_fixup.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.usb.sh:system/etc/init.qcom.usb.sh
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \

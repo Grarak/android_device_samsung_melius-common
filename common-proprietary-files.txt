@@ -2,10 +2,9 @@
 bin/btnvtool
 bin/fm_qsoc_patches	
 bin/hci_qcomm_init
-bin/mpdecision
 
 # Thermal
-bin/thermal-engine
+bin/mpdecision
 bin/thermald
 
 # Bluetooth firmware
@@ -138,10 +137,6 @@ lib/libTsAccm.so
 lib/libTsAwb.so
 lib/libmmcamera_wavelet_lib.so
 lib/libqc-opt.so
-
-
-# Wi-Fi
-etc/wifi/wpa_supplicant.conf
 
 # Perf
 lib/libqc-opt.so

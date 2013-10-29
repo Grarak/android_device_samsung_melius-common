@@ -45,18 +45,22 @@ on fs
     # results in failure to launch late-start class.
 
     wait /dev/block/platform/msm_sdcc.1/by-name/cache
+    check_fs /dev/block/platform/msm_sdcc.1/by-name/cache ext4
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cache /cache nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
 
     wait /dev/block/platform/msm_sdcc.1/by-name/persist
+    check_fs /dev/block/platform/msm_sdcc.1/by-name/persist ext4
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
 
+    wait /dev/block/platform/msm_sdcc.1/by-name/modem
+# for 10776 test
+    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower dmask=0006 fmask=0006 umask=0006,gid=1000
+
     wait /dev/block/platform/msm_sdcc.1/by-name/efs
+    check_fs /dev/block/platform/msm_sdcc.1/by-name/efs ext4
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/efs /efs nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
     chown system radio /efs
     chmod 0771 /efs
-
-    wait /dev/block/platform/msm_sdcc.1/by-name/modem
-    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower dmask=0006 fmask=0006 umask=0006,gid=1000
 
 on fs_selinux
     mount_all fstab.qcom
@@ -283,19 +287,6 @@ service thermald /system/bin/thermald
    class main
    user root
    group root
-   disabled
-
-service thermal-engine /system/bin/thermal-engine
-   class main
-   user root
-   group root
-   disabled
-
-on property:qcom.thermal=thermald
-    start thermald
-
-on property:qcom.thermal=thermal-engine
-    start thermal-engine
 
 service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
    user root
