@@ -135,8 +135,6 @@ lib/liboemcamera.so
 lib/libsecnativefeature.so
 lib/libTsAccm.so
 lib/libTsAwb.so
-lib/libmmcamera_wavelet_lib.so
-lib/libqc-opt.so
 
 # Perf
 lib/libqc-opt.so
