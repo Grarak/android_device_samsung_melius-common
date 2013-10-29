@@ -31,6 +31,9 @@ TARGET_SCREEN_WIDTH := 720
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/audio/snd_soc_msm:system/etc/snd_soc_msm \
+    $(LOCAL_PATH)/audio/snd_soc_msm_2x:system/etc/snd_soc_msm_2x \
+    $(LOCAL_PATH)/audio/snd_soc_msm_2x_Fusion3:system/etc/snd_soc_msm_2x_Fusion3 \
     $(LOCAL_PATH)/audio/snd_soc_msm_Sitar:system/etc/snd_soc_msm/snd_soc_msm_Sitar
 
 # Media Profile
@@ -68,14 +71,13 @@ PRODUCT_COPY_FILES += \
 
 # Etc scripts
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.class_core.sh:system/etc/init.qcom.class_core.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.class_main.sh:system/etc/init.qcom.class_main.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.early_boot.sh:system/etc/init.qcom.early_boot.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.lpm_boot.sh:system/etc/init.qcom.lpm_boot.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.ril.sh:system/etc/init.qcom.ril.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.sh:system/etc/init.qcom.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.syspart_fixup.sh:system/etc/init.qcom.syspart_fixup.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.usb.sh:system/etc/init.qcom.usb.sh
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.audio.sh:system/etc/init.qcom.audio.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.mdm_links.sh:system/etc/init.qcom.mdm_links.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.modem_links.sh:system/etc/init.qcom.modem_links.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.sensor.sh:system/etc/init.qcom.sensor.sh \
+    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.wifi.sh:system/etc/init.qcom.wifi.sh
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/system/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
