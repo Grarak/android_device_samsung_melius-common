@@ -656,6 +656,9 @@ on nonencrypted
 on property:vold.decrypt=trigger_restart_framework
     setprop ro.fuse_sdcard ${persist.fuse_sdcard}
 
+service charger /charger
+    class charger
+
 service ssr_diag /system/bin/ssr_diag
     class late_start
     user system
