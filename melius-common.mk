@@ -24,6 +24,8 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/melius-common/overlay
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
+#PRODUCT_BOOT_JARS += qcom.fmradio:qcmediaplayer
+
 # Boot animation
 TARGET_SCREEN_HEIGHT := 1280
 TARGET_SCREEN_WIDTH := 720
@@ -39,10 +41,6 @@ PRODUCT_COPY_FILES += \
 # Media Profile
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml
-
-# Expose Irda feature
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/system/etc/permissions/com.sec.feature.irda_service.xml:system/etc/permissions/com.sec.feature.irda_service.xml
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -104,7 +102,7 @@ PRODUCT_PACKAGES += \
     sap.conf
 
 # FM radio
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
     qcom.fmradio \
     libqcomfm_jni \
     FM2 \
@@ -115,9 +113,6 @@ PRODUCT_PACKAGES += Torch
 
 # Lights
 PRODUCT_PACKAGES += lights.msm8960
-
-# Irda
-PRODUCT_PACKAGES += irda.msm8960
 
 # QRNGD
 PRODUCT_PACKAGES += qrngd
@@ -135,6 +130,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 #common build.props
 PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.interface=wlan0 \
     ro.chipname=MSM8930AB \
     ro.ril.hsxpa=1 \
     ro.ril.gprsclass=10 \
