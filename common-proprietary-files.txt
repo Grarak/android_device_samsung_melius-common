@@ -45,6 +45,7 @@ etc/firmware/a300_pm4.fw
 etc/firmware/vidc_1080p.fw
 
 # Graphics
+lib/libI420colorconvert.so
 lib/libmm-color-convertor.so
 lib/libNimsWrap.so
 lib/libcnefeatureconfig.so
