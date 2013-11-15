@@ -272,6 +272,10 @@ on post-fs-data
     chown nfc nfc /data/bcmnfc
     chown nfc nfc /data/bcmnfc/param
 
+# communicate with mpdecision and thermald
+    mkdir /dev/socket/mpdecision 0770 system system
+    chmod 2770 /dev/socket/mpdecision
+
 #start camera server as daemon
 service qcamerasvr /system/bin/mm-qcamera-daemon
         class late_start
@@ -290,6 +294,7 @@ service thermald /system/bin/thermald
    group root
 
 service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+   class main
    user root
    disabled
 
