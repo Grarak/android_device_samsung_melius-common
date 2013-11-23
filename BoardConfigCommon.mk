@@ -45,7 +45,7 @@ BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
 TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.recovery.rc
-TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/backlight\"
+TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/panel/brightness\"
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
@@ -75,3 +75,35 @@ BOARD_HAVE_DOCK_USBAUDIO := true
 
 # Allow suspend in charge mode
 BOARD_CHARGER_ENABLE_SUSPEND := true
+
+# TWRP specific build flags
+BOARD_USE_CUSTOM_RECOVERY_FONT:= \"roboto_15x24.h\"
+DEVICE_RESOLUTION := 720x1280
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_HAS_DOWNLOAD_MODE := false
+TW_NO_USB_STORAGE := true
+TWRP_EVENT_LOGGING := false
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+
+# dual storage definition
+TW_INTERNAL_STORAGE_PATH := "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file
+TW_INCLUDE_FUSE_EXFAT := true
+
+# Enable SELinux (> Android 4.3)
+HAVE_SELINUX := true
+
+# Brightness
+TW_BRIGHTNESS_PATH := "/sys/devices/platform/mipi_novatek_nt35596.2049/lcd/panel/panel/brightness"
+TW_MAX_BRIGHTNESS := 255
+
+#TARGET_USERIMAGES_USE_EXT4 := true # already defined in cm
+TW_INCLUDE_FB2PNG := true
+
+# Prevent greyish screen after screen timeout
+TW_NO_SCREEN_TIMEOUT := true
