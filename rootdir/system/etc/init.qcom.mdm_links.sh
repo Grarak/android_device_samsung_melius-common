@@ -47,7 +47,4 @@ ln -s $MDM_IMAGES/efs3.mbn /system/etc/firmware/efs3.mbn 2>/dev/null
 ln -s $MDM_IMAGES/acdb.mbn /system/etc/firmware/acdb.mbn 2>/dev/null
 ln -s $MDM_IMAGES/mdm_acdb.img /system/etc/firmware/mdm_acdb.img 2>/dev/null
 
-
 cd /
-
-

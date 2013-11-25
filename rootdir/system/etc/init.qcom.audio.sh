@@ -26,45 +26,16 @@
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# This script will check the type of the bluetooth device and set the
-# symbolic links to UCM files accordingly
-
-target="$1"
-btsoc="$2"
 
 # No path is set up at this point so we have to do it here.
 PATH=/sbin:/system/sbin:/system/bin:/system/xbin
 export PATH
 
-case "$target" in
-    msm8974*)
-        insmod /system/lib/modules/adsp-loader.ko
-        ;;
-    *)
-        ;;
-esac
+mkdir /system/etc/firmware/wcd9310
 
-echo "The BTSOC ID is $btsoc"
-case "$btsoc" in
-    "ath3k")
-        echo "Setting soft links for auxpcm files"
-        rm /etc/snd_soc_msm/snd_soc_msm 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_2x 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_2x_Fusion3 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_Sitar 2>/dev/null
-        ln -s /etc/snd_soc_msm/snd_soc_msm_auxpcm             /etc/snd_soc_msm/snd_soc_msm 2>/dev/null
-        ln -s /etc/snd_soc_msm/snd_soc_msm_2x_auxpcm          /etc/snd_soc_msm/snd_soc_msm_2x 2>/dev/null
-        ln -s /etc/snd_soc_msm/snd_soc_msm_2x_Fusion3_auxpcm  /etc/snd_soc_msm/snd_soc_msm_2x_Fusion3 2>/dev/null
-        ln -s /etc/snd_soc_msm/snd_soc_msm_Sitar_auxpcm       /etc/snd_soc_msm/snd_soc_msm_Sitar 2>/dev/null
-        ;;
-    *)
-        echo "Not setting soft links, remove Auxpcm UCM files"
-        rm /etc/snd_soc_msm/snd_soc_msm_auxpcm 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_2x_auxpcm 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_2x_Fusion3_auxpcm 2>/dev/null
-        rm /etc/snd_soc_msm/snd_soc_msm_Sitar_auxpcm 2>/dev/null
-        ;;
-esac
+ln -s /data/misc/audio/wcd9310_anc.bin /etc/firmware/wcd9310/wcd9310_anc.bin 2>/dev/null
+ln -s /data/misc/audio/mbhc.bin /etc/firmware/wcd9310/wcd9310_mbhc.bin 2>/dev/null
+
 setprop qcom.audio.init complete
-exit 0
 
+exit 0
