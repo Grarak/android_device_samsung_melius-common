@@ -54,7 +54,6 @@ lib/libcnefeatureconfig.so
 bin/ds_fmc_appd
 bin/netmgrd
 bin/sec-ril
-bin/qmiproxy
 bin/qmuxd
 bin/rild
 bin/rmt_storage
