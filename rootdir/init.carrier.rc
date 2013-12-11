@@ -24,10 +24,6 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-
-on init
-    mkdir /preload 0771 system system
-
 on boot
     chown system system /sys/class/leds/button-backlight/brightness
 
@@ -36,53 +32,6 @@ on boot
     write /sys/class/input/input6/static_matrix "10000 0 0 0 10000 0 0 0 10000"
     write /sys/class/input/input7/static_matrix "10000 0 0 0 10000 0 0 0 10000"
 
-# IR_LED
-    chown system radio /sys/class/sec/sec_ir/ir_send
-    chown system radio /sys/class/sec/sec_ir/ir_send_result
-
-# Broadcom NFC
-    chmod 0600 /dev/bcm2079x
-    chown nfc nfc /dev/bcm2079x
-    mkdir /data/bcmnfc
-    mkdir /data/bcmnfc/param
-    chmod 0700 /data/bcmnfc
-    chmod 0700 /data/bcmnfc/param
-    chown nfc nfc /data/bcmnfc
-    chown nfc nfc /data/bcmnfc/param
-
-# TSP
-    chown system radio /sys/class/sec/tsp/cmd
-    chown system radio /sys/class/sec/sec_touch_ic
-
-# SAMSUNG CMC624
-    chown system system  /sys/class/mdnie/mdnie/lcdtype
-    chown system system  /sys/class/mdnie/mdnie/lcd_power
-    chown system media_rw /sys/class/mdnie/mdnie/scenario
-    chown system system /sys/class/mdnie/mdnie/tuning
-    chown system media_rw /sys/class/mdnie/mdnie/outdoor
-    chown system system  /sys/class/mdnie/mdnie/mdnie_temp
-    chown system system /sys/class/mdnie/mdnie/mode
-    chown system system /sys/class/mdnie/mdnie/negative
-    chown system media_rw /sys/class/mdnie/mdnie/playspeed
-    chown system system /sys/class/mdnie/mdnie/ebook
-    chown system system /sys/class/mdnie/mdnie/accessibility
-    chown system system /sys/class/mdnie/mdnie/cabc
-    chown system system /sys/class/lcd/panel/siop_enable
-
-# Vibetonz
-service immvibed /system/bin/immvibed
-    class core
-    user shell
-    group shell
-    oneshot
-
-on property:persist.sys.storage_preload=1
-    mount ext4 /dev/block/mmcblk0p22 /preload nosuid nodev noatime wait ro
-    setprop storage.preload.complete 1
-
-on property:persist.sys.storage_preload=0
-    exec /system/bin/umount /preload
-# Permissions for SSRM
 on property:ro.revision=7
     chmod 0664 /sys/devices/platform/sec-thermistor/temperature
     chmod 0664 /sys/class/power_supply/battery/siop_level
@@ -123,8 +72,8 @@ on property:ro.revision=11
     chown radio system /sys/class/power_supply/battery/siop_level
     chown radio system /sys/class/power_supply/battery/test_charge_current    
 
-# Define TCP buffer sizes for various networks
-#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    # Define TCP buffer sizes for various networks
+    #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
     setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
     setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
     setprop net.tcp.buffersize.lte     524288,1048576,2560000,524288,1048576,2560000
@@ -137,55 +86,7 @@ on property:ro.revision=11
     setprop net.tcp.buffersize.gprs    4096,30000,30000,4096,8760,11680
     setprop net.tcp.buffersize.evdo_b  4094,87380,262144,4096,16384,262144
 
-# efs
+    # efs
     mkdir /efs/drm 0700 system system
     mkdir /efs/imei 0775 radio radio
     restorecon -R /efs
-
-# AuthenTec IPSec VPN
-    insmod system/lib/modules/vpnclient.ko ssh_procfs_uid=1000 ssh_procfs_gid=1000
-
-# AuthenTec IPSec VPN
-service vpnclientpm /system/bin/vpnclientpm -u 1000 -O /data/data/com.ipsec.vpnclient/vpnclientpm.txt
-    group system net_admin net_raw
-    disabled
-
-service secstarter /system/bin/secstarter
-    class main
-    user system
-    group system
-
-# service for TZPR provisioning version check app
-service scranton_RD /system/bin/scranton_RD
-    class main
-    user root
-    disabled
-    oneshot
-
-# start for TZPR provisioning version check app
-on property:sys.qseecomd.enable=true
-    start scranton_RD
-
-on property:vpnclientpm.enable=1
-    start vpnclientpm
-
-on property:vpnclientpm.enable=0
-    stop vpnclientpm
-
-on post-fs-data
-# permissions for bluetooth.
-    setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
-    chown bluetooth net_bt_stack ro.bt.bdaddr_path
-    chown bluetooth net_bt_stack /dev/ttyHS0
-    chmod 0660 /dev/ttyHS0
-    chmod 0660 /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
-    chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
-
-# bluetooth LPM
-    chmod 0220 /proc/bluetooth/sleep/lpm
-    chmod 0220 /proc/bluetooth/sleep/btwrite
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/lpm
-    chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
-    chmod 0600 /dev/btlock
-    chown bluetooth bluetooth /dev/btlock
