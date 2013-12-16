@@ -405,6 +405,10 @@ on post-fs-data
     chmod 0660 /sys/class/lcd/panel/panel_colors
     chown system system /sys/class/lcd/panel/panel_colors
 
+    # Vibetonz
+    chmod 0660 /dev/tspdrv
+    chown system system /dev/tspdrv
+
 # Start camera server as daemon
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
