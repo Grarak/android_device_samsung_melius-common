@@ -7,10 +7,6 @@ bin/hci_qcomm_init
 bin/mpdecision
 bin/thermald
 
-# Bluetooth firmware
-vendor/firmware/bcm2079xB4_firmware.ncd
-vendor/firmware/bcm2079xB4_pre_firmware.ncd
-
 # Audio
 lib/libacdbloader.so
 lib/libaudcal.so
