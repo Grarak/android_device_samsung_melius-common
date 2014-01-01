@@ -7,9 +7,14 @@ bin/hci_qcomm_init
 bin/mpdecision
 bin/thermald
 
+# Bluetooth firmware
+vendor/firmware/bcm2079xB4_firmware.ncd
+vendor/firmware/bcm2079xB4_pre_firmware.ncd
+
 # Audio
 lib/libacdbloader.so
 lib/libaudcal.so
+lib/libcsd-client.so
 
 # mmparser extended
 lib/libDivxDrm.so
@@ -19,8 +24,8 @@ lib/libmmparser.so
 lib/libmmosal.so
 
 # Adreno GPU
-etc/firmware/a300_pfp.fw
-etc/firmware/a300_pm4.fw
+etc/firmware/a300_pfp.fw	
+etc/firmware/a300_pm4.fw	
 etc/firmware/vidc_1080p.fw
 lib/egl/eglsubAndroid.so
 lib/egl/libEGL_adreno200.so
@@ -28,30 +33,36 @@ lib/egl/libGLESv1_CM_adreno200.so
 lib/egl/libGLESv2S3D_adreno200.so
 lib/egl/libGLESv2_adreno200.so
 lib/egl/libq3dtools_adreno200.so
-lib/libC2D2.so
 lib/libc2d2_a3xx.so
 lib/libgsl.so
 lib/libllvm-a3xx.so
-lib/libOpenCL.so
-lib/libOpenVG.so
 lib/libsc-a3xx.so
+lib/libC2D2.so
+lib/libOpenVG.so
+lib/libOpenCL.so
+etc/firmware/a300_pfp.fw
+etc/firmware/a300_pm4.fw
+etc/firmware/vidc_1080p.fw
 
 # Graphics
 lib/libI420colorconvert.so
 lib/libmm-color-convertor.so
+lib/libNimsWrap.so
+lib/libcnefeatureconfig.so
 
 # Radio
 bin/ds_fmc_appd
 bin/netmgrd
+bin/sec-ril
+bin/qmiproxy
 bin/qmuxd
 bin/rild
 bin/rmt_storage
-bin/sec-ril
 lib/libatparser.so
 lib/libcordon.so
 lib/libdiag.so
-lib/libdsi_netctrl.so
 lib/libdsutils.so
+lib/libdsi_netctrl.so
 lib/libfactoryutil.so
 lib/libnetmgr.so
 lib/libomission_avoidance.so
@@ -88,23 +99,22 @@ lib/libchromatix_imx175_antishake.so
 lib/libchromatix_imx175_default_video.so
 lib/libchromatix_imx175_lls.so
 lib/libchromatix_imx175_preview.so
-lib/libchromatix_imx175_zsl.so
 lib/libchromatix_imx175_zsl_drama.so
 lib/libchromatix_imx175_zsl_panorama.so
+lib/libchromatix_imx175_zsl.so
 lib/libchromatix_s5k3h5xa_antishake.so
 lib/libchromatix_s5k3h5xa_default_video.so
 lib/libchromatix_s5k3h5xa_lls.so
 lib/libchromatix_s5k3h5xa_preview.so
-lib/libchromatix_s5k3h5xa_zsl.so
 lib/libchromatix_s5k3h5xa_zsl_drama.so
 lib/libchromatix_s5k3h5xa_zsl_panorama.so
+lib/libchromatix_s5k3h5xa_zsl.so
 lib/libchromatix_s5k6a3yx_default_video.so
 lib/libchromatix_s5k6a3yx_preview.so
 lib/libchromatix_s5k6a3yx_smart_stay.so
-lib/libchromatix_s5k6a3yx_vt.so
 lib/libchromatix_s5k6a3yx_vt_hd.so
+lib/libchromatix_s5k6a3yx_vt.so
 lib/libgemini.so
-lib/libimage-jpeg-dec-omx-comp.so
 lib/libimage-jpeg-enc-omx-comp.so
 lib/libimage-omx-common.so
 lib/libmercury.so
@@ -136,5 +146,6 @@ lib/libdrmfs.so
 lib/libdrmtime.so
 lib/libhdcp2.so
 lib/libQSEEComAPI.so
-lib/libWVStreamControlAPI_L3.so
+lib/libWVStreamControlAPI_L1.so
+lib/libtzplayready.so
 lib/libwvm.so

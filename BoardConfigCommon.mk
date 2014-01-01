@@ -23,30 +23,25 @@
 # inherit from common msm8930
 -include device/samsung/msm8930-common/BoardConfigCommon.mk
 
-TARGET_ADDITIONAL_BOOTCLASSPATH := qcmediaplayer:qcom.fmradio
-
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/serrano-common/include
-
-# FM radio
-COMMON_GLOBAL_CFLAGS += -DQCOM_FM_ENABLED
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/melius-common/include
 
 # Kernel
-BOARD_KERNEL_CMDLINE         := androidboot.hardware=qcom user_debug=31 zcache
+BOARD_KERNEL_CMDLINE         := console=null androidboot.hardware=qcom user_debug=31 zcache
 BOARD_KERNEL_BASE            := 0x80200000
 BOARD_MKBOOTIMG_ARGS         := --ramdisk_offset 0x02000000
 BOARD_KERNEL_PAGESIZE        := 2048
 TARGET_KERNEL_SOURCE         := kernel/samsung/msm8930-common
-TARGET_KERNEL_CONFIG         := cyanogen_serrano_defconfig
+TARGET_KERNEL_CONFIG         := cyanogen_melius_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
 
 # Recovery
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/serrano-common/recovery/recovery_keys.c
+BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/melius-common/recovery/recovery_keys.c
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
-TARGET_RECOVERY_FSTAB := device/samsung/serrano-common/rootdir/fstab.qcom
-TARGET_RECOVERY_INITRC := device/samsung/serrano-common/rootdir/init.recovery.rc
+TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
+TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.recovery.rc
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/backlight\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 
@@ -59,7 +54,7 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/serrano-common/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/melius-common/bluetooth
 
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8960

@@ -15,23 +15,23 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # Also get non-open-source specific aspects if available
-$(call inherit-product-if-exists, vendor/samsung/serrano-common/serrano-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/samsung/melius-common/melius-common-vendor.mk)
 
 # Overlays
-DEVICE_PACKAGE_OVERLAYS += device/samsung/serrano-common/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/melius-common/overlay
 
 # Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := normal hdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 # Boot animation
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/audio/snd_soc_msm_2x:system/etc/snd_soc_msm/snd_soc_msm_2x
+    $(LOCAL_PATH)/audio/snd_soc_msm_Sitar:system/etc/snd_soc_msm/snd_soc_msm_Sitar
 
 # Media Profile
 PRODUCT_COPY_FILES += \
@@ -100,13 +100,6 @@ PRODUCT_PACKAGES += \
     gps.conf \
     sap.conf
 
-# FM radio
-PRODUCT_PACKAGES += \
-    qcom.fmradio \
-    libqcomfm_jni \
-    FM2 \
-    FMRecord
-
 # Torch
 PRODUCT_PACKAGES += Torch
 
@@ -124,7 +117,7 @@ PRODUCT_PACKAGES += qcmediaplayer
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
+    persist.sys.usb.config=mtp,adb
 
 # QC Perf
 PRODUCT_PROPERTY_OVERRIDES += \

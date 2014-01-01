@@ -2642,18 +2642,18 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:One
+		'DAC1 MUX':0:RX1
 		'RX1 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'EAR PA Gain':0:POS_3_DB
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
+		'DAC1 MUX':0:ZERO
 		'RX1 MIX1 INP1':0:ZERO
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'EAR PA Gain':0:ZERO
 		'RX1 Digital Volume':1:0
 	EndSequence
 
@@ -2669,18 +2669,18 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:One
+		'DAC1 MUX':0:RX1
 		'RX1 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'EAR PA Gain':0:POS_3_DB
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
+		'DAC1 MUX':0:ZERO
 		'RX1 MIX1 INP1':0:ZERO
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'EAR PA Gain':0:ZERO
 		'RX1 Digital Volume':1:0
 	EndSequence
 
@@ -2696,18 +2696,18 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:One
+		'DAC1 MUX':0:RX1
 		'RX1 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'EAR PA Gain':0:POS_3_DB
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
+		'DAC1 MUX':0:ZERO
 		'RX1 MIX1 INP1':0:ZERO
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'EAR PA Gain':0:ZERO
 		'RX1 Digital Volume':1:0
 	EndSequence
 
@@ -2722,18 +2722,18 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:One
+		'DAC1 MUX':0:RX1
 		'RX1 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'EAR PA Gain':0:POS_3_DB
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
+		'DAC1 MUX':0:ZERO
 		'RX1 MIX1 INP1':0:ZERO
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'EAR PA Gain':0:ZERO
 		'RX1 Digital Volume':1:0
 	EndSequence
 
@@ -2795,20 +2795,23 @@ SectionDevice
 	Comment "Speaker Rx device"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':2:75.0%
+		'LINEOUT2 Volume':2:75.0%
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':2:87.5%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:68.5%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	15:1
@@ -2822,20 +2825,23 @@ SectionDevice
 	Comment "Speaker Rx device for voice call"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':1:91
+		'LINEOUT2 Volume':1:91
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:67.7%
-		'SPK DRV Volume':1:100%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:68.5%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	15:1
@@ -2848,20 +2854,23 @@ SectionDevice
 	Comment "VoIP Comm Speaker Rx device"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':1:91
+		'LINEOUT2 Volume':1:91
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':1:100%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:68.1%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID 15:1
@@ -2874,30 +2883,24 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:100%
-		'HPHR Volume':1:100%
-		'RX1 Digital Volume':2:62.9%
-		'RX2 Digital Volume':2:62.9%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:80
+		'HPHR Volume':1:80
+		'RX2 Digital Volume':1:71
+		'RX3 Digital Volume':1:71
 		'COMP1 Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
-		'RX1 Digital Volume':1:0
 		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
 		'COMP1 Switch':1:0
 	EndSequence
 
@@ -2913,29 +2916,23 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:80%
-		'HPHR Volume':1:80%
-		'RX1 Digital Volume':2:67.7%
-		'RX2 Digital Volume':2:67.7%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:80
+		'HPHR Volume':1:80
+		'RX2 Digital Volume':2:71.0%
+		'RX3 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
-		'RX1 Digital Volume':1:0
 		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
 	EndSequence
 
 	ACDBID  10:1
@@ -2949,29 +2946,23 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:50
-		'HPHR Volume':1:50
-		'RX1 Digital Volume':2:67.7%
-		'RX2 Digital Volume':2:67.7%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:100
+		'HPHR Volume':1:100
+		'RX2 Digital Volume':2:71.0%
+		'RX3 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
-		'RX1 Digital Volume':1:0
 		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
 	EndSequence
 
 	ACDBID 10:1
@@ -2995,8 +2986,8 @@ SectionDevice
 		'SPK DAC Switch':1:1
 		'HPHL Volume':1:25%
 		'HPHR Volume':1:25%
-		'RX1 Digital Volume':1:53%
-		'RX2 Digital Volume':1:53%
+		'RX1 Digital Volume':1:65%
+		'RX2 Digital Volume':1:65%
 		'SPK DRV Volume':1:100%
 	EndSequence
 
@@ -3033,18 +3024,18 @@ SectionDevice
 		'RX5 MIX1 INP1':0:RX2
 		'RX4 DSM MUX':0:DSM_INV
 		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
+		'LINEOUT1 Volume':1:70
+		'LINEOUT2 Volume':1:70
+		'LINEOUT3 Volume':1:70
+		'LINEOUT4 Volume':1:70
 		'RX1 MIX1 INP1':0:RX1
 		'RX2 MIX1 INP1':0:RX2
 		'HPHL DAC Switch':1:1
 		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:70
-		'HPHR Volume':1:70
-		'RX1 Digital Volume':1:65
-		'RX2 Digital Volume':1:65
+		'HPHL Volume':1:72
+		'HPHR Volume':1:72
+		'RX1 Digital Volume':1:67
+		'RX2 Digital Volume':1:67
 		'ANC Slot':1:0
 		'ANC1 MUX':0:ADC4
 		'ANC2 MUX':0:ADC3
@@ -3095,16 +3086,16 @@ SectionDevice
 		'RX2 MIX1 INP1':0:RX2
 		'HPHL DAC Switch':1:1
 		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:70
-		'HPHR Volume':1:70
-		'RX1 Digital Volume':1:65
-		'RX2 Digital Volume':1:65
+		'HPHL Volume':1:72
+		'HPHR Volume':1:72
+		'RX1 Digital Volume':1:67
+		'RX2 Digital Volume':1:67
 		'ANC Slot':1:0
 		'ANC1 MUX':0:ADC4
 		'ANC2 MUX':0:ADC3
 		'ANC1 FB MUX':0:EAR_HPH_L
-		'ADC3 Volume':1:85
-		'ADC4 Volume':1:85
+		'ADC3 Volume':1:87
+		'ADC4 Volume':1:87
 		'MICBIAS3 CAPLESS Switch':1:1
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
@@ -3136,20 +3127,23 @@ SectionDevice
 	Comment "Speaker FM Tx combo device"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':2:77.0%
+		'LINEOUT2 Volume':2:77.0%
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':2:87.5%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:68.1%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	15:1
@@ -3163,19 +3157,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC2
-		'ADC2 Volume':1:80%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC2
+		'ADC2 Volume':1:100
+		'DEC1 Volume':2:71.1%
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC2 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID	8:2
@@ -3189,19 +3183,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':1:53%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:71.1%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  4:2
@@ -3215,19 +3209,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC2
-		'ADC2 Volume':1:63.2%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC2
+		'ADC2 Volume':1:100
+		'DEC1 Volume':2:71.1%
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC2 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID 59:2
@@ -3240,19 +3234,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':1:57.9%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:72.6%
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID 57:2
@@ -3265,22 +3259,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:Two
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'AIF1_CAP Mixer SLIM TX2':1:1
 		'SLIM TX1 MUX':0:DEC1
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:78.4%
-		'ADC3 Volume':2:78.4%
-		'DEC1 Volume':2:77.7%
-		'DEC2 Volume':2:77.7%
+		'ADC1 Volume':1:100
+		'ADC3 Volume':1:100
+		'DEC1 Volume':2:71.0%
+		'DEC2 Volume':2:71.0%
+		'MICBIAS1 CAPLESS Switch':1:1
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'PRI_TX Channels':0:ZERO
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
-		'AIF1_CAP Mixer SLIM TX2':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
 		'SLIM TX2 MUX':0:ZERO
 		'DEC1 MUX':0:ZERO
@@ -3289,6 +3280,8 @@ SectionDevice
 		'ADC3 Volume':1:0
 		'DEC1 Volume':1:0
 		'DEC2 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  56:2
@@ -3326,19 +3319,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':2:67.8%
-		'DEC4 Volume':2:77.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:71.2%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  54:2
@@ -3352,19 +3345,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':1:53%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:71.0%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  4:2
@@ -3378,19 +3371,20 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC3
-		'ADC3 Volume':1:63.2%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC3
+		'ADC3 Volume':1:100
+		'DEC1 Volume':2:71.2%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
+		'PRI_TX Channels':0:0
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC3 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID 58:2
@@ -3403,19 +3397,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':2:80%
-		'DEC4 Volume':2:77.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:72.6%
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  53:2
@@ -3473,19 +3467,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':1:53%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC1
+		'ADC1 Volume':1:100
+		'DEC1 Volume':2:68.0%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID	4:2
@@ -3499,19 +3493,20 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC3
-		'ADC3 Volume':1:100%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC3
+		'ADC3 Volume':1:100
+		'DEC1 Volume':2:68.0%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
+		'PRI_TX Channels':0:0
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
+		'DEC1 MUX':0:ZERO
 		'ADC3 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID	11:2
@@ -3525,22 +3520,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:Two
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'AIF1_CAP Mixer SLIM TX2':1:1
 		'SLIM TX1 MUX':0:DEC1
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:78.4%
-		'ADC3 Volume':2:78.4%
-		'DEC1 Volume':2:77.7%
-		'DEC2 Volume':2:77.7%
+		'ADC1 Volume':1:100
+		'ADC3 Volume':1:100
+		'DEC1 Volume':2:68.5%
+		'DEC2 Volume':2:68.5%
+		'MICBIAS1 CAPLESS Switch':1:1
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'PRI_TX Channels':0:ZERO
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
-		'AIF1_CAP Mixer SLIM TX2':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
 		'SLIM TX2 MUX':0:ZERO
 		'DEC1 MUX':0:ZERO
@@ -3549,6 +3541,8 @@ SectionDevice
 		'ADC3 Volume':1:0
 		'DEC1 Volume':1:0
 		'DEC2 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  56:2
@@ -3561,22 +3555,19 @@ EndSection
 
 	EnableSequence
 		'PRI_TX Channels':0:Two
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'AIF1_CAP Mixer SLIM TX2':1:1
 		'SLIM TX1 MUX':0:DEC1
 		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
-		'ADC1 Volume':2:78.4%
-		'ADC3 Volume':2:78.4%
-		'DEC1 Volume':2:77.7%
-		'DEC2 Volume':2:77.7%
+		'ADC1 Volume':1:100
+		'ADC3 Volume':1:100
+		'DEC1 Volume':2:68.5%
+		'DEC2 Volume':2:68.5%
+		'MICBIAS1 CAPLESS Switch':1:1
+		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'PRI_TX Channels':0:ZERO
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
-		'AIF1_CAP Mixer SLIM TX2':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
 		'SLIM TX2 MUX':0:ZERO
 		'DEC1 MUX':0:ZERO
@@ -3585,6 +3576,8 @@ EndSection
 		'ADC3 Volume':1:0
 		'DEC1 Volume':1:0
 		'DEC2 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
+		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  56:2
@@ -3597,37 +3590,30 @@ SectionDevice
 	Comment "TTY Headset Rx device"
 
 	EnableSequence
-		'TTY Mode':0:VCO
+		'TTY Mode':0:FULL
 		'PRI_RX Channels':0:One
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:100%
-		'HPHR Volume':1:100%
-		'RX1 Digital Volume':2:67.7%
-		'RX2 Digital Volume':2:67.7%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:100
+		'HPHR Volume':1:100
+		'RX2 Digital Volume':1:67
+		'RX3 Digital Volume':1:67
 	EndSequence
 
 	DisableSequence
 		'TTY Mode':0:ZERO
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
-		'RX1 Digital Volume':1:0
 		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	17:1
 	EffectsMixerCTL "SRS TruMedia"
-	EC_REF_RXMixerCTL "I2S_RX"
 
 EndSection
 
@@ -3638,20 +3624,20 @@ SectionDevice
 	EnableSequence
 		'TTY Mode':0:HCO
 		'PRI_TX Channels':0:One
-		'AIF1_CAP Mixer SLIM TX1':1:1
-		'SLIM TX1 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':2:57.8%
-		'DEC4 Volume':2:67.7%
+		'SLIM TX1 MUX':0:DEC1
+		'DEC1 MUX':0:ADC2
+		'ADC2 Volume':1:100
+		'DEC1 Volume':2:67.7%
+		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
 		'TTY Mode':0:ZERO
-		'AIF1_CAP Mixer SLIM TX1':0:ZERO
 		'SLIM TX1 MUX':0:ZERO
-		'DEC4 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC4 Volume':1:0
+		'DEC1 MUX':0:ZERO
+		'ADC2 Volume':1:0
+		'DEC1 Volume':1:0
+		'MICBIAS1 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID	16:2
@@ -3666,35 +3652,28 @@ SectionDevice
 	EnableSequence
 		'TTY Mode':0:FULL
 		'PRI_RX Channels':0:One
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:100%
-		'HPHR Volume':1:100%
-		'RX1 Digital Volume':2:67.7%
-		'RX2 Digital Volume':2:67.7%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:100
+		'HPHR Volume':1:100
+		'RX2 Digital Volume':1:67
+		'RX3 Digital Volume':1:67
 	EndSequence
 
 	DisableSequence
 		'TTY Mode':0:ZERO
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
-		'RX1 Digital Volume':1:0
 		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	17:1
 	EffectsMixerCTL "SRS TruMedia"
-	EC_REF_RXMixerCTL "I2S_RX"
 
 EndSection
 
@@ -3881,14 +3860,19 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:One
+		'DAC1 MUX':0:RX1
 		'RX1 MIX1 INP1':0:RX1
-		'EAR PA Gain':0:POS_2_DB
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
+		'RX1 Digital Volume':2:68.0%
 	EndSequence
 
 	DisableSequence
+		'DAC1 MUX':0:ZERO
 		'RX1 MIX1 INP1':0:ZERO
+		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:0
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	7:1
@@ -3901,20 +3885,23 @@ SectionDevice
 	Comment "SPDIF + Speaker Rx device"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':2:75.0%
+		'LINEOUT2 Volume':2:75.0%
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':2:87.5%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:68.0%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	15:1
@@ -3928,21 +3915,25 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'RX1 MIX1 INP1':0:RX1
-		'RX2 MIX1 INP1':0:RX2
-		'HPHL DAC Switch':1:1
-		'HPHR DAC Switch':1:1
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
 		'HPHL Volume':1:80
 		'HPHR Volume':1:80
+		'RX2 Digital Volume':1:68
+		'RX3 Digital Volume':1:68
+		'COMP1 Switch':1:1
 	EndSequence
 
 	DisableSequence
-		'RX1 MIX1 INP1':0:ZERO
 		'RX2 MIX1 INP1':0:ZERO
-		'HPHL DAC Switch':1:0
-		'HPHR DAC Switch':1:0
+		'RX3 MIX1 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
 		'HPHL Volume':1:0
 		'HPHR Volume':1:0
+		'RX2 Digital Volume':1:0
+		'RX3 Digital Volume':1:0
+		'COMP1 Switch':1:0
 	EndSequence
 
 	ACDBID	10:1
@@ -4181,20 +4172,23 @@ SectionDevice
 	Comment "PROXY Rx + Speaker Rx device combo device"
 
 	EnableSequence
+		'DAC3 MUX':0:INV_RX1
+		'DAC2 MUX':0:RX1
+		'DAC1 MUX':0:RX1
+		'LINEOUT1 Volume':2:75.0%
+		'LINEOUT2 Volume':2:75.0%
 		'PRI_RX Channels':0:One
-		'RX4 MIX1 INP1':0:RX1
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SPK DAC Switch':1:1
-		'RX4 Digital Volume':1:68%
-		'SPK DRV Volume':2:87.5%
+		'RX1 MIX1 INP1':0:RX1
+		'RX1 Digital Volume':2:67.7%
+		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
 	DisableSequence
-		'RX4 MIX1 INP1':0:ZERO
-		'SLIM RX1 MUX':0:ZERO
-		'SPK DAC Switch':1:0
-		'RX4 Digital Volume':1:0
-		'SPK DRV Volume':1:0%
+		'RX1 MIX1 INP1':0:ZERO
+		'DAC3 MUX':0:ZERO
+		'DAC2 MUX':0:ZERO
+		'DAC1 MUX':0:ZERO
+		'RX1 Digital Volume':1:0
 	EndSequence
 
 	ACDBID	15:1
@@ -4373,23 +4367,23 @@ SectionDevice
 
 	EnableSequence
 		'PRI_RX Channels':0:Two
-		'SLIM RX1 MUX':0:AIF1_PB
-		'SLIM RX2 MUX':0:AIF1_PB
-		'RX3 MIX1 INP1':0:RX1
-		'RX4 MIX1 INP1':0:RX2
-		'RDAC5 MUX':0:DEM4
-		'RX3 Digital Volume':2:67.7%
-		'RX4 Digital Volume':2:67.7%
+		'RX2 MIX1 INP1':0:RX1
+		'RX3 MIX1 INP1':0:RX2
+		'DAC4 MUX':0:ON
+		'HPHL Volume':1:100
+		'HPHR Volume':1:100
+		'RX2 Digital Volume':2:68.0%
+		'RX3 Digital Volume':2:68.0%
 	EndSequence
 
 	DisableSequence
-		'SLIM RX1 MUX':0:ZERO
-		'SLIM RX2 MUX':0:ZERO
+		'RX2 MIX1 INP1':0:ZERO
 		'RX3 MIX1 INP1':0:ZERO
-		'RX4 MIX2 INP1':0:ZERO
+		'DAC4 MUX':0:ZERO
+		'HPHL Volume':1:0
+		'HPHR Volume':1:0
+		'RX2 Digital Volume':1:0
 		'RX3 Digital Volume':1:0
-		'RX4 Digital Volume':1:0
-		'RDAC5 MUX':0:DEM3_INV
 	EndSequence
 
 	ACDBID  40:1

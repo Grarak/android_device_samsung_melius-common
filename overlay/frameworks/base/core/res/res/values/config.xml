@@ -20,6 +20,16 @@
 <!-- These resources are around just to allow their values to be customized
      for different hardware and product builds. -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Default color for notification LED is white. -->
+    <color name="config_defaultNotificationColor">#ffffffff</color>
+    
+    <!-- Default value for led color when battery is medium charged -->
+    <!-- The green LED is brighter than red, bias closer to yellow. -->
+    <integer name="config_notificationsBatteryMediumARGB">0xFFFF6000</integer>
+    
+    <!-- If this is true, the screen will come on when you unplug usb/power/whatever. -->
+    <bool name="config_unplugTurnsOnScreen">true</bool>
+
     <!-- Enables or disables fading edges when marquee is enabled in TextView. -->
     <bool name="config_ui_enableFadingMarquee">false</bool>
 
@@ -104,6 +114,15 @@
 
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">false</bool>
+
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
+    
+    <!-- Is the battery LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveBatteryLed">true</bool>
+    
+    <!-- Does the battery LED support multiple colors? Used to decide if the user can change the colors -->
+    <bool name="config_multiColorBatteryLed">true</bool>
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
