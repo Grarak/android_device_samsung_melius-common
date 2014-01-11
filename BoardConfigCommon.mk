@@ -77,9 +77,6 @@ BOARD_HAVE_DOCK_USBAUDIO := true
 # Allow suspend in charge mode
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-# Enable QCOM FM feature
-QCOM_FM_ENABLED := true
-
 # TWRP specific build flags
 BOARD_USE_CUSTOM_RECOVERY_FONT:= \"roboto_15x24.h\"
 DEVICE_RESOLUTION := 720x1280
