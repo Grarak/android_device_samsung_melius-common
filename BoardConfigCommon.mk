@@ -111,6 +111,9 @@ PRODUCT_BOOT_JARS := $(subst $(space),:,$(PRODUCT_BOOT_JARS))
 TARGET_NEED_SAMSUNG_MAGIC_ZSL_1508 := true
 TARGET_NEED_PREVIEW_SIZE_FIXUP := true
 
+# We have new GPS
+BOARD_HAVE_NEW_QC_GPS := true
+
 #MultiROM config. MultiROM also uses parts of TWRP config
 MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/samsung/melius-common/mr_init_devices.c
