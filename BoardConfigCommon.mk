@@ -29,12 +29,12 @@ TARGET_SPECIFIC_HEADER_PATH := device/samsung/melius-common/include
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # Kernel
-BOARD_KERNEL_CMDLINE         := console=null androidboot.hardware=qcom androidboot.selinux=permissive user_debug=31
+BOARD_KERNEL_CMDLINE         := console=null androidboot.hardware=qcom user_debug=31
 BOARD_KERNEL_BASE            := 0x80200000
 BOARD_MKBOOTIMG_ARGS         := --ramdisk_offset 0x02000000
 BOARD_KERNEL_PAGESIZE        := 2048
 TARGET_KERNEL_SOURCE         := kernel/samsung/msm8930-common
-TARGET_KERNEL_CONFIG         := cyanogen_melius_defconfig
+TARGET_KERNEL_CONFIG         := gk_melius_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 
 TARGET_BOOTLOADER_BOARD_NAME := MSM8960
@@ -44,7 +44,6 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/melius-common/recovery/
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
-TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.recovery.rc
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/panel/brightness\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 
@@ -55,6 +54,7 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1572864000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 5821676544
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_FLASH_BLOCK_SIZE := 131072
+BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/melius-common/bluetooth
@@ -77,21 +77,17 @@ BOARD_HAVE_DOCK_USBAUDIO := true
 # Allow suspend in charge mode
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-# TWRP specific build flags
-BOARD_USE_CUSTOM_RECOVERY_FONT:= \"roboto_15x24.h\"
+#TWRP
 DEVICE_RESOLUTION := 720x1280
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 RECOVERY_SDCARD_ON_DATA := true
-TW_HAS_DOWNLOAD_MODE := false
-TW_NO_USB_STORAGE := true
-TWRP_EVENT_LOGGING := false
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-
-# dual storage definition
 TW_INTERNAL_STORAGE_PATH := "/data/media/0"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+BOARD_HAS_NO_REAL_SDCARD := true
 
 #TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file
 TW_INCLUDE_FUSE_EXFAT := true
@@ -114,3 +110,10 @@ PRODUCT_BOOT_JARS := $(subst $(space),:,$(PRODUCT_BOOT_JARS))
 # Camera
 TARGET_NEED_SAMSUNG_MAGIC_ZSL_1508 := true
 TARGET_NEED_PREVIEW_SIZE_FIXUP := true
+
+#MultiROM config. MultiROM also uses parts of TWRP config
+MR_INPUT_TYPE := type_b
+MR_INIT_DEVICES := device/samsung/melius-common/mr_init_devices.c
+MR_DPI := hdpi
+MR_FSTAB := device/samsung/melius-common/twrp.fstab
+MR_KEXEC_MEM_MIN := 0x85000000
