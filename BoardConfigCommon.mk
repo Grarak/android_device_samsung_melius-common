@@ -105,8 +105,6 @@ TW_INCLUDE_FB2PNG := true
 # Prevent greyish screen after screen timeout
 TW_NO_SCREEN_TIMEOUT := true
 
-PRODUCT_BOOT_JARS := $(subst $(space),:,$(PRODUCT_BOOT_JARS))
-
 # Camera
 TARGET_NEED_SAMSUNG_MAGIC_ZSL_1508 := true
 
