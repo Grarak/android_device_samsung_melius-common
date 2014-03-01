@@ -14,7 +14,6 @@ vendor/firmware/bcm2079xB4_pre_firmware.ncd
 # Audio
 lib/libacdbloader.so
 lib/libaudcal.so
-lib/libcsd-client.so
 
 # mmparser extended
 lib/libDivxDrm.so
@@ -47,8 +46,6 @@ etc/firmware/vidc_1080p.fw
 # Graphics
 lib/libI420colorconvert.so
 lib/libmm-color-convertor.so
-lib/libNimsWrap.so
-lib/libcnefeatureconfig.so
 
 # Radio
 bin/ds_fmc_appd
