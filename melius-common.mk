@@ -93,8 +93,7 @@ PRODUCT_PACKAGES += \
 # GPS
 PRODUCT_PACKAGES += \
     gps.msm8960 \
-    gps.conf \
-    sap.conf
+    gps.conf
 
 # Torch
 PRODUCT_PACKAGES += Torch
