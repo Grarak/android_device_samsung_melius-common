@@ -318,12 +318,12 @@ on post-fs-data
     # NFC_BROADCOM
     chmod 0600 /dev/bcm2079x
     chown nfc nfc /dev/bcm2079x
-    mkdir /data/nfc
-    mkdir /data/nfc/param
-    chmod 0770 /data/nfc
-    chmod 0770 /data/nfc/param
-    chown nfc nfc /data/nfc
-    chown nfc nfc /data/nfc/param
+    mkdir /data/bcmnfc
+    mkdir /data/bcmnfc/param
+    chmod 0770 /data/bcmnfc
+    chmod 0770 /data/bcmnfc/param
+    chown nfc nfc /data/bcmnfc
+    chown nfc nfc /data/bcmnfc/param
 
     # MDNIE
     chown system system  /sys/class/mdnie/mdnie/lcdtype
