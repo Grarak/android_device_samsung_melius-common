@@ -479,9 +479,9 @@ service geomagneticd /system/bin/geomagneticd
     group system input
 
 service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
+    class late_start
+    user root
+    group root
 
 # boot completed
 on property:dev.bootcomplete=1
