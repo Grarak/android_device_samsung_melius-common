@@ -112,13 +112,6 @@ TARGET_NEED_DISABLE_FACE_DETECTION_BOTH_CAMERAS := true
 # We have new GPS
 BOARD_HAVE_NEW_QC_GPS := true
 
-#MultiROM config. MultiROM also uses parts of TWRP config
-MR_INPUT_TYPE := type_b
-MR_INIT_DEVICES := device/samsung/melius-common/mr_init_devices.c
-MR_DPI := hdpi
-MR_FSTAB := device/samsung/melius-common/twrp.fstab
-MR_KEXEC_MEM_MIN := 0x85000000
-
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
 
