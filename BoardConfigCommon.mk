@@ -48,6 +48,7 @@ TARGET_KRAIT_BIONIC_PLDSIZE := 64
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
+TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.rc
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/panel/brightness\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 
