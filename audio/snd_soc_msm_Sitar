@@ -2646,7 +2646,7 @@ SectionDevice
 		'RX1 MIX1 INP1':0:RX1
 		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2673,7 +2673,7 @@ SectionDevice
 		'RX1 MIX1 INP1':0:RX1
 		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2700,7 +2700,7 @@ SectionDevice
 		'RX1 MIX1 INP1':0:RX1
 		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2726,7 +2726,7 @@ SectionDevice
 		'RX1 MIX1 INP1':0:RX1
 		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2802,7 +2802,7 @@ SectionDevice
 		'LINEOUT2 Volume':2:75.0%
 		'PRI_RX Channels':0:One
 		'RX1 MIX1 INP1':0:RX1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:68.5%
 		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
@@ -2832,7 +2832,7 @@ SectionDevice
 		'LINEOUT2 Volume':1:91
 		'PRI_RX Channels':0:One
 		'RX1 MIX1 INP1':0:RX1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:68.5%
 		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
@@ -2861,7 +2861,7 @@ SectionDevice
 		'LINEOUT2 Volume':1:91
 		'PRI_RX Channels':0:One
 		'RX1 MIX1 INP1':0:RX1
-		'RX1 Digital Volume':2:66.1%
+		'RX1 Digital Volume':2:68.1%
 		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
@@ -2888,8 +2888,8 @@ SectionDevice
 		'DAC4 MUX':0:ON
 		'HPHL Volume':1:80
 		'HPHR Volume':1:80
-		'RX2 Digital Volume':1:67
-		'RX3 Digital Volume':1:67
+		'RX2 Digital Volume':1:71
+		'RX3 Digital Volume':1:71
 		'COMP1 Switch':1:1
 	EndSequence
 
@@ -2919,10 +2919,10 @@ SectionDevice
 		'RX2 MIX1 INP1':0:RX1
 		'RX3 MIX1 INP1':0:RX2
 		'DAC4 MUX':0:ON
-		'HPHL Volume':1:34
-		'HPHR Volume':1:34
-		'RX2 Digital Volume':2:67.7%
-		'RX3 Digital Volume':2:67.7%
+		'HPHL Volume':1:80
+		'HPHR Volume':1:80
+		'RX2 Digital Volume':2:71.0%
+		'RX3 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2951,8 +2951,8 @@ SectionDevice
 		'DAC4 MUX':0:ON
 		'HPHL Volume':1:100
 		'HPHR Volume':1:100
-		'RX2 Digital Volume':2:67.7%
-		'RX3 Digital Volume':2:67.7%
+		'RX2 Digital Volume':2:71.0%
+		'RX3 Digital Volume':2:71.0%
 	EndSequence
 
 	DisableSequence
@@ -2986,8 +2986,8 @@ SectionDevice
 		'SPK DAC Switch':1:1
 		'HPHL Volume':1:25%
 		'HPHR Volume':1:25%
-		'RX1 Digital Volume':1:53%
-		'RX2 Digital Volume':1:53%
+		'RX1 Digital Volume':1:65%
+		'RX2 Digital Volume':1:65%
 		'SPK DRV Volume':1:100%
 	EndSequence
 
@@ -3024,18 +3024,18 @@ SectionDevice
 		'RX5 MIX1 INP1':0:RX2
 		'RX4 DSM MUX':0:DSM_INV
 		'RX6 DSM MUX':0:DSM_INV
-		'LINEOUT1 Volume':1:66
-		'LINEOUT2 Volume':1:66
-		'LINEOUT3 Volume':1:66
-		'LINEOUT4 Volume':1:66
+		'LINEOUT1 Volume':1:70
+		'LINEOUT2 Volume':1:70
+		'LINEOUT3 Volume':1:70
+		'LINEOUT4 Volume':1:70
 		'RX1 MIX1 INP1':0:RX1
 		'RX2 MIX1 INP1':0:RX2
 		'HPHL DAC Switch':1:1
 		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:70
-		'HPHR Volume':1:70
-		'RX1 Digital Volume':1:65
-		'RX2 Digital Volume':1:65
+		'HPHL Volume':1:72
+		'HPHR Volume':1:72
+		'RX1 Digital Volume':1:67
+		'RX2 Digital Volume':1:67
 		'ANC Slot':1:0
 		'ANC1 MUX':0:ADC4
 		'ANC2 MUX':0:ADC3
@@ -3086,16 +3086,16 @@ SectionDevice
 		'RX2 MIX1 INP1':0:RX2
 		'HPHL DAC Switch':1:1
 		'HPHR DAC Switch':1:1
-		'HPHL Volume':1:70
-		'HPHR Volume':1:70
-		'RX1 Digital Volume':1:65
-		'RX2 Digital Volume':1:65
+		'HPHL Volume':1:72
+		'HPHR Volume':1:72
+		'RX1 Digital Volume':1:67
+		'RX2 Digital Volume':1:67
 		'ANC Slot':1:0
 		'ANC1 MUX':0:ADC4
 		'ANC2 MUX':0:ADC3
 		'ANC1 FB MUX':0:EAR_HPH_L
-		'ADC3 Volume':1:85
-		'ADC4 Volume':1:85
+		'ADC3 Volume':1:87
+		'ADC4 Volume':1:87
 		'MICBIAS3 CAPLESS Switch':1:1
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
@@ -3130,11 +3130,11 @@ SectionDevice
 		'DAC3 MUX':0:INV_RX1
 		'DAC2 MUX':0:RX1
 		'DAC1 MUX':0:RX1
-		'LINEOUT1 Volume':2:75.0%
-		'LINEOUT2 Volume':2:75.0%
+		'LINEOUT1 Volume':2:77.0%
+		'LINEOUT2 Volume':2:77.0%
 		'PRI_RX Channels':0:One
 		'RX1 MIX1 INP1':0:RX1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:68.1%
 		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
@@ -3160,7 +3160,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC2
 		'ADC2 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:71.1%
 		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3186,7 +3186,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC1
 		'ADC1 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:71.1%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3212,7 +3212,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC2
 		'ADC2 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:71.1%
 		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3259,14 +3259,14 @@ SectionDevice
 
 	EnableSequence
 		'PRI_TX Channels':0:Two
-		'SLIM TX1 MUX':0:DEC2
-		'SLIM TX2 MUX':0:DEC1
+		'SLIM TX1 MUX':0:DEC1
+		'SLIM TX2 MUX':0:DEC2
 		'DEC1 MUX':0:ADC1
 		'DEC2 MUX':0:ADC3
 		'ADC1 Volume':1:100
 		'ADC3 Volume':1:100
-		'DEC1 Volume':2:68.5%
-		'DEC2 Volume':2:68.5%
+		'DEC1 Volume':2:71.0%
+		'DEC2 Volume':2:71.0%
 		'MICBIAS1 CAPLESS Switch':1:1
 		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
@@ -3322,7 +3322,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC1
 		'ADC1 Volume':1:100
-		'DEC1 Volume':2:68.5%
+		'DEC1 Volume':2:71.2%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3348,7 +3348,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC1
 		'ADC1 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:71.0%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3374,7 +3374,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC3
 		'ADC3 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:71.2%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3470,7 +3470,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC1
 		'ADC1 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:68.0%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3496,7 +3496,7 @@ SectionDevice
 		'SLIM TX1 MUX':0:DEC1
 		'DEC1 MUX':0:ADC3
 		'ADC3 Volume':1:100
-		'DEC1 Volume':2:67.7%
+		'DEC1 Volume':2:68.0%
 		'MICBIAS1 CAPLESS Switch':1:1
 	EndSequence
 
@@ -3864,7 +3864,7 @@ SectionDevice
 		'RX1 MIX1 INP1':0:RX1
 		'EAR PA Gain':0:POS_6_DB
 		'DAC1 Switch':1:1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:68.0%
 	EndSequence
 
 	DisableSequence
@@ -3892,7 +3892,7 @@ SectionDevice
 		'LINEOUT2 Volume':2:75.0%
 		'PRI_RX Channels':0:One
 		'RX1 MIX1 INP1':0:RX1
-		'RX1 Digital Volume':2:67.7%
+		'RX1 Digital Volume':2:68.0%
 		'PMIC SPK Gain':0:POS_20_DB
 	EndSequence
 
@@ -3920,8 +3920,8 @@ SectionDevice
 		'DAC4 MUX':0:ON
 		'HPHL Volume':1:80
 		'HPHR Volume':1:80
-		'RX2 Digital Volume':1:67
-		'RX3 Digital Volume':1:67
+		'RX2 Digital Volume':1:68
+		'RX3 Digital Volume':1:68
 		'COMP1 Switch':1:1
 	EndSequence
 
@@ -4372,8 +4372,8 @@ SectionDevice
 		'DAC4 MUX':0:ON
 		'HPHL Volume':1:100
 		'HPHR Volume':1:100
-		'RX2 Digital Volume':2:66.9%
-		'RX3 Digital Volume':2:66.9%
+		'RX2 Digital Volume':2:68.0%
+		'RX3 Digital Volume':2:68.0%
 	EndSequence
 
 	DisableSequence
