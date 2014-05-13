@@ -59,7 +59,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1572864000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 5821676544
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_FLASH_BLOCK_SIZE := 131072
-BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/melius-common/bluetooth
@@ -82,34 +81,6 @@ BOARD_HAVE_DOCK_USBAUDIO := true
 # Allow suspend in charge mode
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
-#TWRP
-DEVICE_RESOLUTION := 720x1280
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-RECOVERY_SDCARD_ON_DATA := true
-TW_INTERNAL_STORAGE_PATH := "/data/media/0"
-TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
-TW_EXTERNAL_STORAGE_PATH := "/external_sd"
-TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
-TW_NO_REBOOT_BOOTLOADER := true
-TW_HAS_DOWNLOAD_MODE := true
-BOARD_HAS_NO_REAL_SDCARD := true
-
-#TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file
-TW_INCLUDE_FUSE_EXFAT := true
-
-# Enable SELinux (> Android 4.3)
-HAVE_SELINUX := true
-
-# Brightness
-TW_BRIGHTNESS_PATH := "/sys/devices/platform/mipi_novatek_nt35596.2049/lcd/panel/panel/brightness"
-TW_MAX_BRIGHTNESS := 255
-
-#TARGET_USERIMAGES_USE_EXT4 := true # already defined in cm
-TW_INCLUDE_FB2PNG := true
-
-# Prevent greyish screen after screen timeout
-TW_NO_SCREEN_TIMEOUT := true
-
 # Camera
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 TARGET_NEED_CAMERA_ZSL := true
@@ -125,3 +96,28 @@ BOARD_USES_QC_TIME_SERVICES := true
 
 # PowerHAL
 TARGET_POWERHAL_VARIANT := qcom
+
+#TWRP
+DEVICE_RESOLUTION := 720x1280
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_INTERNAL_STORAGE_PATH := "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+BOARD_HAS_NO_REAL_SDCARD := true
+TW_INCLUDE_FUSE_EXFAT := true
+
+# Enable SELinux (> Android 4.3)
+HAVE_SELINUX := true
+
+# Brightness
+TW_BRIGHTNESS_PATH := "/sys/devices/platform/mipi_novatek_nt35596.2049/lcd/panel/panel/brightness"
+TW_MAX_BRIGHTNESS := 255
+
+TW_INCLUDE_FB2PNG := true
+
+# Prevent greyish screen after screen timeout
+TW_NO_SCREEN_TIMEOUT := true
