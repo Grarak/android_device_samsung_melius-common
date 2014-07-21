@@ -51,6 +51,7 @@ TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
 TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.rc
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/panel/brightness\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
+BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760
