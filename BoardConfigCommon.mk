@@ -48,7 +48,6 @@ TARGET_KRAIT_BIONIC_PLDSIZE := 64
 BOARD_USES_MMCUTILS := true
 BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_RECOVERY_FSTAB := device/samsung/melius-common/rootdir/fstab.qcom
-TARGET_RECOVERY_INITRC := device/samsung/melius-common/rootdir/init.rc
 TARGET_RECOVERY_LCD_BACKLIGHT_PATH := \"/sys/class/lcd/panel/panel/brightness\"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
@@ -117,7 +116,7 @@ TW_INCLUDE_FUSE_EXFAT := true
 HAVE_SELINUX := true
 
 # Brightness
-TW_BRIGHTNESS_PATH := "/sys/devices/platform/mipi_novatek_nt35596.2049/lcd/panel/panel/brightness"
+TW_BRIGHTNESS_PATH := "/sys/devices/platform/msm_fb.526337/leds/lcd-backlight/brightness"
 TW_MAX_BRIGHTNESS := 255
 
 TW_INCLUDE_FB2PNG := true
